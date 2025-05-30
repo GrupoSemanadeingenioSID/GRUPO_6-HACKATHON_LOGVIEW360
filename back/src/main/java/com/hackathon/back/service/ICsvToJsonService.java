@@ -1,10 +1,10 @@
 package com.hackathon.back.service;
 
-import com.hackathon.back.dto.LogMidFlowESB;
+import com.hackathon.back.dto.LogMidFlowESBDto;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface ICsvToJsonService {
-    List<LogMidFlowESB> convertCsvToJson(String csvFilePath, String delimiter) throws IOException;
+    List<LogMidFlowESBDto> convertCsvToJson(String csvFilePath, String delimiter) throws IOException;
 }

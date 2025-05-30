@@ -1,6 +1,6 @@
 package com.hackathon.back.service.impl;
 
-import com.hackathon.back.dto.LogMidFlowESB;
+import com.hackathon.back.dto.LogMidFlowESBDto;
 import com.hackathon.back.service.ICsvToJsonService;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -19,14 +19,14 @@ public class CsvToJsonServiceImpl implements ICsvToJsonService {
 
 
     @Override
-    public List<LogMidFlowESB> convertCsvToJson(String csvFilePath, String delimiter) throws IOException {
+    public List<LogMidFlowESBDto> convertCsvToJson(String csvFilePath, String delimiter) throws IOException {
         try(FileInputStream file = new FileInputStream(csvFilePath);){
             if (file.available() == 0) {
                 throw new IllegalArgumentException("El archivo CSV está vacío.");
             }
             try (Reader reader = new InputStreamReader(file)) {
-                CsvToBean<LogMidFlowESB> csvToBean = new CsvToBeanBuilder<LogMidFlowESB>(reader)
-                        .withType(LogMidFlowESB.class)
+                CsvToBean<LogMidFlowESBDto> csvToBean = new CsvToBeanBuilder<LogMidFlowESBDto>(reader)
+                        .withType(LogMidFlowESBDto.class)
                         .withIgnoreLeadingWhiteSpace(true)
                         .withSeparator(delimiter.toCharArray()[0])
                         .build();

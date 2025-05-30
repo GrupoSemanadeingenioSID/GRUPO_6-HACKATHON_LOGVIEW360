@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public abstract class CommonLog {
+public abstract class CommonLogDto {
     @CsvBindByName(column = "timestamp", required = true)
-    @CsvDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    @CsvDate("yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
     @CsvBindByName(column = "transaction_id", required = true)
     private String transactionId;
