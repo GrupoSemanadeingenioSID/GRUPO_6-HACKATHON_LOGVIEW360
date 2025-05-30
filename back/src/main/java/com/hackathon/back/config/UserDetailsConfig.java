@@ -1,5 +1,7 @@
 package com.hackathon.back.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -19,5 +21,13 @@ public class UserDetailsConfig {
                 .roles("USER")
                 .build());
         return manager;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+//        objectMapper.setDateFormat(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        return objectMapper;
     }
 }

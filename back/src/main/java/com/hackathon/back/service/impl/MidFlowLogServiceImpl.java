@@ -6,7 +6,11 @@ import com.hackathon.back.mapper.MidFlowLogMapper;
 import com.hackathon.back.repository.MidFlowLogJpaRepository;
 import com.hackathon.back.service.IMidFlowLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,5 +42,10 @@ public class MidFlowLogServiceImpl implements IMidFlowLogService {
         } else {
             throw new IllegalArgumentException("El registro con ID " + entity.getTransactionId() + " no existe.");
         }
+    }
+
+    @Override
+    public List<LogMidFlowESBDto> findAll(Pageable pageable) {
+        return jpaRepository.findAll(pageable).stream().map(mapper::entityToDto).collect(Collectors.toList());
     }
 }

@@ -1,11 +1,17 @@
 package com.hackathon.back;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.hackathon.back.dto.LogCoreBankDto;
+import com.hackathon.back.dto.LogSecureCheckDto;
 import com.hackathon.back.mapper.CoreBankLogMapper;
+import com.hackathon.back.mapper.SecureLogCheckMapper;
 import com.hackathon.back.repository.CoreBankLogJpaRepository;
+import com.hackathon.back.repository.SecureCheckLogJpaRepository;
 import com.hackathon.back.service.ICoreBankLogService;
+import com.hackathon.back.service.ILogSecureService;
 import com.hackathon.back.service.LogCoreBankLogToJson;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -31,7 +37,10 @@ CommandLineRunner runner(LogCoreBankLogToJson toJson,
                          CoreBankLogJpaRepository repositoryCoreBank,
                          MidFlowLogJpaRepository midFlowLogJpaRepository,
                          MidFlowLogMapper midFlowMapper,
-                         CoreBankLogMapper coreBankLogMapper) {
+                         CoreBankLogMapper coreBankLogMapper,
+                         ILogSecureService logSecureService,
+                         SecureCheckLogJpaRepository secureCheckLogJpaRepository,
+                         SecureLogCheckMapper secureLogCheckMapper) {
     return args -> {
         String delimiter = ",";
 
@@ -56,22 +65,11 @@ CommandLineRunner runner(LogCoreBankLogToJson toJson,
         } catch (Exception e) {
             System.err.println("Error al convertir LOG: " + e.getMessage());
         }
-    };
+        System.out.println(LocalDateTime.now());
+        List<LogSecureCheckDto> dtos = logSecureService.findAllByFile("logs_SecuCheck.json");
+        secureCheckLogJpaRepository.saveAll(dtos.stream().map(secureLogCheckMapper::toEntity).toList());
 
-//    @Bean
-//    CommandLineRunner runner(ICsvToJsonService service, MidFlowLogJpaRepository repository, MidFlowLogMapper mapper){
-//        return args -> {
-//            String csvFilePath = "src/main/resources/logs_MidFlow_ESB.csv"; // Ruta del archivo CSV
-//            String delimiter = ","; // Delimitador del CSV
-//            try {
-//                List<LogMidFlowESBDto> dtos = service.convertCsvToJson(csvFilePath, delimiter);
-//                System.out.println("CSV convertido a JSON exitosamente.");
-//                repository.saveAll(dtos.stream().map(mapper::dtoToEntity).toList());
-//            } catch (Exception e) {
-//                System.err.println("Error al convertir CSV a JSON: " + e.getMessage());
-//            }
-//        };
-//    }
+    };
 }
 }
 

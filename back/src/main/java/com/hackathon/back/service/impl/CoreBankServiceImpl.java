@@ -6,7 +6,10 @@ import com.hackathon.back.mapper.CoreBankLogMapper;
 import com.hackathon.back.repository.CoreBankLogJpaRepository;
 import com.hackathon.back.service.ICoreBankLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +43,12 @@ public class CoreBankServiceImpl implements ICoreBankLogService {
         } else {
             throw new IllegalArgumentException("El registro con ID " + entity.getTransactionId() + " no existe.");
         }
+    }
+
+    @Override
+    public List<LogCoreBankDto> findAll(Pageable pageable) {
+        return jpaRepository.findAll(pageable)
+                .map(mapper::entityToDto)
+                .getContent();
     }
 }

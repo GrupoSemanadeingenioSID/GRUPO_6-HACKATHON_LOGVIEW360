@@ -1,6 +1,7 @@
 package com.hackathon.back.entitys;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,9 @@ public class SecureCheckLogEntity {
     private String motivoFallo;
     private String modulo;
     @Enumerated(EnumType.STRING)
-    private VerificacionesRealizadasEnum verificacionesRealizadas;
+    @ElementCollection
+    @CollectionTable(name = "secure_check_log_verificaciones", joinColumns = @JoinColumn(name = "transaction_id"))
+    @Column(name = "verificacion_realizada")
+    private List<VerificacionesRealizadasEnum> verificacionesRealizadas;
 }
 

@@ -1,17 +1,28 @@
 package com.hackathon.back.service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hackathon.back.dto.LogSecureCheckDto;
 import com.hackathon.back.entitys.SecureCheckLogEntity;
 import com.hackathon.back.mapper.SecureLogCheckMapper;
 import com.hackathon.back.repository.SecureCheckLogJpaRepository;
 import com.hackathon.back.service.ILogSecureService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LogSecureServiceImpl implements ILogSecureService {
 
+    private final ObjectMapper jsonMapper;
     private final SecureCheckLogJpaRepository jpaRepository;
     private final SecureLogCheckMapper mapper;
     @Override
@@ -38,6 +49,24 @@ public class LogSecureServiceImpl implements ILogSecureService {
             jpaRepository.save(entity);
         } else {
             throw new IllegalArgumentException("Entity with id " + dto.getTransactionId() + " does not exist.");
+        }
+    }
+
+    @Override
+    public List<LogSecureCheckDto> findAll(Pageable pageable) {
+        return jpaRepository.findAll(pageable).stream().map(mapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LogSecureCheckDto> findAllByFile(String filePath)  {
+
+        try {
+            ClassPathResource resource = new ClassPathResource(filePath);
+            FileInputStream fileInputStream = new FileInputStream(resource.getFile());
+            List<LogSecureCheckDto> dtos = jsonMapper.readValue(fileInputStream, new TypeReference<List<LogSecureCheckDto>>() {});
+            return dtos;
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading file: " + filePath, e);
         }
     }
 }
