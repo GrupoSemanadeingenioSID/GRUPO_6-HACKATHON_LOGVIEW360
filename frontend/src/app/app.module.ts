@@ -6,6 +6,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -51,6 +52,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { CoreBanckComponent } from './pages/app/coreBanck/coreBanck.component';
 import { MidFlowComponent } from './pages/app/midFlow/midFlow.component';
 import { SecuCheckComponent } from './pages/app/secuCheck/secuCheck.component';
+import { UserComponent } from './pages/app/user/user.component';
 import { GenericTableComponent } from './pages/layout/components/generic-table/generic-table.component';
 
 @NgModule({
@@ -64,7 +66,8 @@ import { GenericTableComponent } from './pages/layout/components/generic-table/g
     GenericTableComponent,
     MidFlowComponent,
     SecuCheckComponent,
-    CoreBanckComponent
+    CoreBanckComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +87,7 @@ import { GenericTableComponent } from './pages/layout/components/generic-table/g
     MatSidenavModule,
     MatDividerModule,
     MatTreeModule,
+    MatGridListModule,
     ReactiveFormsModule,
     MatPaginatorModule,
     MatTable,

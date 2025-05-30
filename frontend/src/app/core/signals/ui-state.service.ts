@@ -16,7 +16,8 @@ private sidebarItemsSignal = signal<any[]>([
   { name: 'General', url: '/individual', icon: 'dashboard' },
   { name: 'Secure',  url: '/secuCheck', icon: 'security' },
   { name: 'Mid',     url: '/midFlow', icon: 'swap_horiz' },
-  { name: 'Core',    url: '/coreBank', icon: 'account_balance' }
+  { name: 'Core',    url: '/coreBank', icon: 'account_balance' },
+  { name: 'Usuario',    url: '/user', icon: 'user' }
   ]
 
   }

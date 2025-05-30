@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/app/home/home.component';
 import { MidFlowComponent } from './pages/app/midFlow/midFlow.component';
 import { SecuCheckComponent } from './pages/app/secuCheck/secuCheck.component';
 import { TransactsComponent } from './pages/app/transacts/transacts.component';
+import { UserComponent } from './pages/app/user/user.component';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { LoginComponent } from './pages/login/login.component';
 
@@ -42,6 +43,10 @@ export const routes: Routes = [
                         {
         path: 'coreBank',
         component: CoreBanckComponent
+      },
+      {
+        path: 'user',
+        component: UserComponent
       },
       {
         path: '**',

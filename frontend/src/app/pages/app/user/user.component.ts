@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-transacts',
-  templateUrl: './transacts.component.html',
-  styleUrls: ['./transacts.component.scss'],
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss'],
   standalone: false
 })
-export class TransactsComponent implements OnInit {
+export class UserComponent implements OnInit {
   data = {
     timestamp: '2025-05-30T17:28:17.742250',
     latency_stats: {
