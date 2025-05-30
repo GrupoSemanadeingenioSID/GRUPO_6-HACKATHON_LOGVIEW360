@@ -9,12 +9,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class LogCoreBankDto extends CommonLogDto {
-    private String info;
-    private String status;
-
-    private String transactTypeId;
-    private String cuenta;
+    private String nivelLog;
+    private String tipoTransaccion;
+    private String tipoCuenta;
     private String estado;
-    private Long valor;
-
+    private Double valor;
 }

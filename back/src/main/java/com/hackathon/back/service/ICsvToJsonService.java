@@ -8,6 +8,5 @@ import com.hackathon.back.dto.LogMidFlowESBDto;
 public interface ICsvToJsonService {
     List<LogMidFlowESBDto> convertCsvToJson(String csvFilePath, String delimiter) throws IOException;
 
-    List<LogMidFlowESBDto> convertLogToJson(String logFilePath) throws IOException;
 
 }

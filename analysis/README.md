@@ -48,7 +48,6 @@ python main.py
    - `normalized_data_[timestamp].csv`: Datos normalizados
    - `bottlenecks_[timestamp].csv`: Cuellos de botella detectados
    - `flow_patterns_[timestamp].csv`: Patrones de flujo
-   - `latency_distribution_[timestamp].png`: Visualización de distribución de latencias
 
 ## Componentes
 
@@ -75,7 +74,6 @@ El análisis genera:
 2. Detección de cuellos de botella
 3. Identificación de anomalías
 4. Mapeo de flujos de transacción
-5. Visualizaciones de distribuciones
 
 ## Mantenimiento
 

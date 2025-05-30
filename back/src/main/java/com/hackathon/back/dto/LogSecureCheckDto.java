@@ -1,5 +1,6 @@
 package com.hackathon.back.dto;
 
+import com.hackathon.back.entitys.VerificacionesRealizadasEnum;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -12,5 +13,6 @@ import java.util.List;
 @SuperBuilder
 public class LogSecureCheckDto extends CommonLogDto {
     private String motivoFallo;
-    private List<String> verificacionesRealizadas;
+    private VerificacionesRealizadasEnum verificacionesRealizadas;
+    private String resultadoValidacion;
 }

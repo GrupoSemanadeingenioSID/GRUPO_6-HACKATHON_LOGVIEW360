@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "mid_flow_log")
+@Table(name = "secure_check_log")
 public class SecureCheckLogEntity {
     private LocalDateTime timestamp;
     @Id
