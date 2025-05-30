@@ -8,30 +8,26 @@ export class UIStateService {
   // Signal for page title
   private titleSignal = signal<string>('Home');
 
-  // Signal for sidebar items
-  private sidebarItemsSignal = signal<any[]>([
-    {
-      name: 'Tramites',
-      isActive: false,
-      subitems: [
-        { name: 'Banco', url: '/tramites', icon: 'description' },
-        { name: 'Trámites', url: '/tramites', icon: 'file-code.svg' },
-      ]
-    },
-    {
-      name: 'Certificados/Productos',
-      isActive: true,
-      subitems: [
-        { name: 'Automatizados', url: '/automatizados', icon: 'file-code.svg' },
-        { name: 'Manuales', url: '/manuales', icon: 'file-like.svg' }
-      ]
-    }
-  ]);
+private sidebarItemsSignal = signal<any[]>([
+  {
+    name: 'Tramites',
+    isActive: false,
+    subitems: [
+      { name: 'Banco', url: '/tramites', icon: 'description' },
+      { name: 'Trámites', url: '/tramites', icon: 'code' }
+    ]
+  },
+  {
+    name: 'Certificados/Productos',
+    isActive: true,
+    subitems: [
+      { name: 'Automatizados', url: '/automatizados', icon: 'code' },
+      { name: 'Manuales', url: '/manuales', icon: 'article' }
+    ]
+  }
+]);
 
-  // Signal for searchbox visibility
   private searchboxVisibleSignal = signal<boolean>(true);
-
-  // Signal for username profile
   private userProfileSignal = signal<any>({
     name: 'Tatiana Quintero',
     role: 'Revisor',

@@ -1,17 +1,15 @@
 <div class="app-container">
   <div class="app-container__content">
-    <mat-card
-      *ngFor="let item of options"
-      class="app-container-card"
-      (click)="navigate(item.route)"
-    >
-      <mat-card-header>
-        <div mat-card-avatar class="app-container-header-image">
-          <mat-icon>settings</mat-icon>
-        </div>
-      </mat-card-header>
-      <mat-card-title>{{ item.title }}</mat-card-title>
-      <mat-card-subtitle>{{ item.subtitle }}</mat-card-subtitle>
-    </mat-card>
+          <app-generic-table
+        [columns]="tableColumns"
+        [data]="applicants"
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="pageSize"
+        [sizeSelectable]="false"
+        [totalItems]="totalItems"
+        [selectable]="false"
+        cellPadding="0px"
+        (pageChange)="handlePageChange($event)"
+      ></app-generic-table>
   </div>
 </div>

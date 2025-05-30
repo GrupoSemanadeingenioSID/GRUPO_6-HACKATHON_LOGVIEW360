@@ -1,5 +1,5 @@
 @use "@angular/material" as mat;
-@use "../../../../../assets/styles/theme-colors" as theme;
+@use "../../../../../../public/styles/theme-colors.scss" as theme;
 
 .topbar__container {
   display: flex;

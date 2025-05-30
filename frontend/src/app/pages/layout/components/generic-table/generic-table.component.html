@@ -1,0 +1,111 @@
+<div class="container">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="container__table mat-elevation-z8"
+  >
+    <ng-container matColumnDef="select" *ngIf="selectable">
+      <th mat-header-cell *matHeaderCellDef class="container__header">
+        <mat-checkbox
+          (change)="onHeaderCheckboxChange()"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row" class="container__cell">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="onRowCheckboxChange(row)"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    @for (column of columns; track column) {
+    <ng-container [matColumnDef]="column.key">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="container__header __header__nr"
+        [style.width]="column.width"
+      >
+        <div class="header-content">
+          {{ column.header }}
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element" class="container__cell">
+        <ng-container *ngIf="!column.cellTemplate && !column.domain && !column.date">
+          {{ element[column.key] }}
+        </ng-container>
+        <ng-container
+          *ngIf="column.cellTemplate"
+          [ngTemplateOutlet]="column.cellTemplate"
+          [ngTemplateOutletContext]="{ element: element }"
+        >
+        </ng-container>
+        </ng-container>
+    }
+    <ng-container matColumnDef="actions" *ngIf="showActions()">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="container__header header-actions"
+      ></th>
+      <td mat-cell *matCellDef="let row" class="container__cell action-column">
+        <button
+          mat-icon-button
+          *ngIf="showDetails()"
+          title="Detalle"
+          (click)="buttonClick(row, 'details')"
+        >
+          <img [src]="'/assets/icons/eye-check.svg'" alt="Ver detalle" />
+        </button>
+        <button
+          mat-icon-button
+          *ngIf="showEdit()"
+          (click)="buttonClick(row, 'edit')"
+          title="Editar"
+        >
+
+        <mat-icon class="edit-btn">edit_outline</mat-icon>
+
+        </button>
+
+        <button
+          mat-icon-button
+          *ngIf="showDelete()"
+          (click)="buttonClick(row, 'delete')"
+          title="Eliminar"
+        >
+        <mat-icon class="delete-btn">delete_outline</mat-icon>
+
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr *matNoDataRow>
+      <td [attr.colspan]="displayedColumns.length" class="mensaje-sin-datos">
+        Lo sentimos, no se encontraron resultados para tu búsqueda.
+      </td>
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+<mat-paginator
+  class="container__paginator"
+  [length]="totalItems"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  [hidePageSize]="!sizeSelectable"
+  (page)="onPageChange($event)"
+  *ngIf="showPaginator()"
+>
+</mat-paginator>
+

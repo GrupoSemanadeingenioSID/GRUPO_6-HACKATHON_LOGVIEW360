@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-    FormControl,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-    Validators
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { ModalService } from '../../core/services/ui/modal.service';
 import * as AuthActions from '../../core/store/auth/auth.actions';
 import * as AuthSelectors from '../../core/store/auth/auth.selectors';
 
@@ -40,8 +41,15 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private modalService: ModalService) {
     this.loading$ = this.store.select(AuthSelectors.selectAuthLoading);
+  }
+
+  forgetPassword() {
+    this.modalService.openErrorModal(
+              'Lo sentimos',
+              'No podemos hacer nada :c'
+            );
   }
 
   submit() {
