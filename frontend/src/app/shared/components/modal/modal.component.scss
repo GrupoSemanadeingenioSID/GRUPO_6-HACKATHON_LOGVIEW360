@@ -1,0 +1,191 @@
+@use 'sass:color';
+
+$dialog-max-width: 500px;
+$dialog-border-radius: 25px;
+$dialog-padding: 16px;
+
+$btn-width: 150px;
+$btn-height: 50px;
+$btn-font-size: 20px;
+$btn-border-radius: 100px;
+$transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+$hover-scale: 1.05;
+$box-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+
+::ng-deep .mat-mdc-dialog-surface {
+  min-width: 0 !important;
+  width: auto;
+  max-width: $dialog-max-width;
+  border-radius: $dialog-border-radius;
+  padding: $dialog-padding;
+}
+
+/* Estilos para el contenedor del modal */
+.modal-container {
+  max-width: $dialog-max-width;
+  border-radius: $dialog-border-radius;
+  padding: $dialog-padding;
+
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .modal-icon {
+      font-size: 100px;
+      height: 100px;
+      width: 100px;
+    }
+
+    .modal-title {
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 32px;
+      text-align: center;
+      vertical-align: middle;
+      color: #001b3c;
+    }
+
+    .modal-message {
+      font-weight: 400;
+      font-size: 16px !important;
+      line-height: 20px;
+      letter-spacing: 0.25px;
+      vertical-align: middle;
+    }
+  }
+
+  &.success .modal-icon {
+    color: #4caf50;
+  }
+
+  &.error .modal-icon {
+    color: #f44336;
+  }
+
+  &.warning .modal-icon {
+    color: #ff9800;
+  }
+
+  &.info .modal-icon {
+    color: #2196f3;
+  }
+
+  [mat-dialog-content] {
+    margin-bottom: 24px;
+    font-weight: 400;
+    font-size: 16px !important;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+    vertical-align: middle;
+    }
+
+  [mat-dialog-actions] {
+    button {
+      margin-left: 8px;
+    }
+  }
+}
+
+
+@mixin btn-hover($base-color) {
+  background-color: color.adjust($base-color, $lightness: -10%);
+  transform: scale($hover-scale);
+  box-shadow: $box-shadow-hover;
+}
+
+/* Clase base para botones “filled” */
+.btn-base {
+  width: $btn-width;
+  height: $btn-height;
+  font-size: $btn-font-size;
+  font-weight: 500;
+  border-radius: $btn-border-radius;
+  cursor: pointer;
+  border: none;
+  transition: $transition;
+}
+
+/* Botón de éxito */
+.btn-success {
+  @extend .btn-base;
+  background-color: #4caf50;
+  color: white;
+
+  &:hover {
+    @include btn-hover(#4caf50);
+  }
+}
+
+/* Botón de error */
+.btn-error {
+  @extend .btn-base;
+  background-color: #f44336;
+  color: white;
+
+  &:hover {
+    @include btn-hover(#f44336);
+  }
+}
+
+/* Botón de advertencia */
+.btn-warning {
+  @extend .btn-base;
+  background-color: #e5a000;
+  color: white;
+
+  &:hover {
+    @include btn-hover(#e5a000);
+  }
+}
+
+/* Botón de información */
+.btn-info {
+  @extend .btn-base;
+  background-color: #2196f3;
+  color: white;
+
+  &:hover {
+    @include btn-hover(#2196f3);
+  }
+}
+
+/* Botón por defecto */
+.btn-default {
+  @extend .btn-base;
+  background-color: #9e9e9e;
+  color: white;
+
+  &:hover {
+    @include btn-hover(#9e9e9e);
+  }
+}
+
+.cancel {
+  width: $btn-width;
+  height: $btn-height;
+  font-size: $btn-font-size;
+  font-weight: 500;
+  border-radius: $btn-border-radius;
+  cursor: pointer;
+  background: transparent;
+  color: #3F5F90;
+  border: 2px solid #74777f;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #3F5F90;
+    color: #fff;
+    border-color: #3F5F90;
+    transform: scale($hover-scale);
+    box-shadow: $box-shadow-hover;
+  }
+}

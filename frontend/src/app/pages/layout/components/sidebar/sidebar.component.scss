@@ -1,0 +1,50 @@
+.sidebar {
+  color: var(--mat-sys-on-surface);
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: var(--mat-sys-outline-variant);
+    margin: 0 auto;
+    max-width: 164px;
+  }
+
+  &__logo {
+    margin: 20px 35.6px;
+    cursor: pointer;
+    width: 150px;
+  }
+
+  &__menu {
+    span {
+      margin-right: 10px;
+    }
+    &-list {
+      display: flex;
+      align-items: center;
+      padding: 9px;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 20px;
+      color: var(--mat-sys-primary);
+      cursor: pointer;
+    }
+    &-item {
+      span {
+        color: var(--mat-sys-on-surface-variant);
+      }
+
+      display: flex;
+      align-items: center;
+      padding: 9px;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 20px;
+      color: var(--mat-sys-on-surface);
+      cursor: pointer;
+    }
+  }
+  &__icon{
+    margin-right: 10px;
+  }
+}

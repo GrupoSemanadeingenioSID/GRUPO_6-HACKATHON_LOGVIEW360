@@ -1,0 +1,50 @@
+.document-viewer {
+  // border: 1px solid var(--mat-sys-primary);
+  padding: 16px;
+  // border-radius: 24px 24px 24px 24px;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  h2 {
+    color: var(--mat-sys-primary);
+  }
+  &__container {
+    display: grid;
+    grid-template-columns: auto 15rem;
+    grid-template-areas: "body info";
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 1em;
+
+    iframe {
+      grid-area: body;
+      flex-grow: 1; // Hace que el iframe llene el espacio disponible
+      width: 100%;
+      height: 100%;
+    }
+    div {
+      grid-area: info;
+      color: var(--mat-sys-on-surface);
+      h3 {
+        color: var(--mat-sys-primary);
+      }
+    }
+  }
+  &__content {
+    max-height: none;
+  }
+  &__actions {
+    button {
+      display: block !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    padding-bottom: 0;
+  }
+  &__none_border {
+    border: none !important;
+  }
+}

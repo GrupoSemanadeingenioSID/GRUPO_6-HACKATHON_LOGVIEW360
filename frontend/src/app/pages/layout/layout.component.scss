@@ -1,0 +1,42 @@
+
+@use 'sass:map';
+
+.app-layout-container {
+  min-height: 100dvh;
+  background: var(--mat-sys-surface);
+  min-width: auto;
+  //max-width: 1920px;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 100px 1fr;
+  grid-template-areas:
+    "sidebar topbar"
+    "sidebar content";
+
+  &__sidebar {
+    grid-area: sidebar;
+    background: var(--primary-color);
+    box-shadow: 4px 4px 4px 0px #10417A1A;
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    gap: 4px;
+  }
+  &__topbar {
+    grid-area: topbar;
+  }
+  &__content {
+    grid-area: content;
+    padding-inline: 24px;
+    &__title {
+      font-family: Roboto;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 28px;
+      letter-spacing: 0%;
+      color: #3F5F90;
+      margin-top: 12px;
+      margin-bottom: 5px;
+    }
+  }
+}

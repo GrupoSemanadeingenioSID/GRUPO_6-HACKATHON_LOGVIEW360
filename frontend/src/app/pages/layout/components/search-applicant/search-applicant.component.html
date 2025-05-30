@@ -1,0 +1,28 @@
+<div class="filter">
+  <form [formGroup]="filterForm" class="filter__form">
+    <!-- Inputs -->
+    <div class="filter__group" *ngFor="let field of fieldsToShow">
+      <label class="filter__label">{{ field.label }}*</label>
+      <mat-form-field appearance="outline" class="filter__input">
+        <mat-label>{{ field.type === 'text' ? 'Escriba aquí' : 'Selecciona' }}</mat-label>
+
+        <!-- Si el campo es un select -->
+        <mat-select *ngIf="field.type === 'select'" [formControlName]="field.name">
+          <mat-option *ngFor="let option of field.options" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+        <!-- Si el campo es un input -->
+        <input *ngIf="field.type === 'text'" matInput type="text" [formControlName]="field.name">
+      </mat-form-field>
+    </div>
+
+
+   <!-- actions -->
+    <div class="filter__actions">
+      <button mat-button class="filter__button filter__button--cancel" (click)="closeFilterDialog()">Cerrar</button>
+      <button mat-raised-button color="primary" class="filter__button filter__button--search">Buscar</button>
+    </div>
+  </form>
+</div>
+

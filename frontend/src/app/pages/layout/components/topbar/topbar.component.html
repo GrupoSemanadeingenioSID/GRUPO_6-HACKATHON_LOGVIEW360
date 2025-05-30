@@ -1,0 +1,59 @@
+<div class="topbar__container">
+  <div class="topbar__container__searchbox" >
+    <form *ngIf="uiStateService.searchboxVisible()"
+          class="topbar__container__searchbox__container"
+          (submit)="performSearch($event)">
+      <button mat-icon-button type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+      <input
+        type="text"
+        class="topbar__container__searchbox__container__input"
+        placeholder="Busqueda general"
+        [formControl]="searchControl"
+        (keyup.enter)="performSearch($event)"
+      />
+      <button mat-icon-button (click)="openFilterDialog($event)" matTooltip="Filtros avanzados" type="button">
+        <mat-icon [color]="'black'">tune</mat-icon>
+      </button>
+    </form>
+    <!-- Add a standalone filter button when search box is hidden -->
+    <button mat-icon-button *ngIf="!uiStateService.searchboxVisible()" (click)="openFilterDialog($event)"
+        matTooltip="Filtros avanzados" class="topbar__container__filter-button">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </div>
+  <div class="topbar__container__profile">
+    <div class="topbar__container__profile__data">
+      <div class="topbar__container__profile__data__name">{{ uiStateService.userProfile().name }}</div>
+      <div class="topbar__container__profile__data__role">{{ uiStateService.userProfile().role }}</div>
+    </div>
+    <div class="topbar__container__profile__avatar" [matMenuTriggerFor]="profileMenu">
+      <img
+        [src]="uiStateService.userProfile().picture || '/assets/images/sample_avatar.png'"
+        alt="Avatar"
+        class="topbar__container__profile__avatar__image"
+      />
+    </div>
+    <mat-menu #profileMenu="matMenu" xPosition="before">
+      <div class="topbar__container__profile__menu__item">
+        <span>Cambiar tema</span>
+        <button mat-icon-button (click)="toggleDarkMode()">
+          <mat-icon>{{ darkMode ? 'brightness_7' : 'brightness_2' }}</mat-icon>
+        </button>
+      </div>
+      <div class="topbar__container__profile__menu__item">
+        <span>{{ uiStateService.searchboxVisible() ? 'Ocultar' : 'Mostrar' }} buscador</span>
+        <button mat-icon-button (click)="toggleSearchVisibility()">
+          <mat-icon>{{ uiStateService.searchboxVisible() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </div>
+      <div class="topbar__container__profile__menu__item">
+        <span>Cerrar sesion</span>
+        <button mat-icon-button>
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </mat-menu>
+  </div>
+</div>
