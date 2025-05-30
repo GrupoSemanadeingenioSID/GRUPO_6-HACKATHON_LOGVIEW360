@@ -1,0 +1,17 @@
+<h1>CoreBank</h1>
+
+<div class="app-container">
+  <div class="app-container__content">
+          <app-generic-table
+        [columns]="tableColumns"
+        [data]="applicants"
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="pageSize"
+        [sizeSelectable]="false"
+        [totalItems]="totalItems"
+        [selectable]="false"
+        cellPadding="0px"
+        (pageChange)="handlePageChange($event)"
+      ></app-generic-table>
+  </div>
+</div>
