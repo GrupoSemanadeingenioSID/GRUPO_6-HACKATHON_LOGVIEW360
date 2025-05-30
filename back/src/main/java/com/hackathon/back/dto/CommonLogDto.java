@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@ToString
 public abstract class CommonLogDto {
     @CsvBindByName(column = "timestamp", required = true)
     @CsvDate("yyyy-MM-dd HH:mm:ss")

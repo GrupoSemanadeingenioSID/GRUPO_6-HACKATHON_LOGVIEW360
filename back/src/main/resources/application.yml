@@ -4,13 +4,18 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
   jpa:
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    jdbc:
+      dialect: postgresql
 server:
   port: 8080
 
@@ -18,4 +23,3 @@ app:
   jwt:
     secret: "93323ebf01d059016573b6d02fefe333446750e281d6babf33ef2257347286f5fd59a02b3bd2f68460da7b0fd12d77ce317b697591cc210476ee0ffc5610003200e0c516f99dd3ab0cba6b1f5fb11af88c715d9ede4c7f8197d778b34d05cd5f0db90c373b80e2f2e4845141cad9bade8cfdfbdf5ab55080a90b7ff3934830b75be73efaca86a759bb84a55611cfaf999957bf41006bad910191651992242a5f61ac870fd1f1db607cf2e1ffeb8922288df90aa8bc31da75a0e3318a1c9ef230c6d3f298517bb4387e13a6d8e3289398f13831676d6e03220e35a40e27e59d40bbcc19a4db4154ed63e0f8ab38506abc3bf763704af24a022c14d1076bf5126bf645dde786cf4694b0c4065d9d9eb056c9faf7d629f63cc673185236b1558d183c7a4f711436df7a7fb017de72cd7eadcf714ad5b20f16ee251596cc6a8cea494a1e74ddf63a6600371fe1e387ace690d838763b726d5ac366432a3963f46759400b6c12010e25622deaf78ed894b7a48b2322695141748453ccc9ad10605b7354ea325f545b274021619e2ab8d30bbe2cda032b526bb34bb6fbd646fec8633af260133adb8f67e00c25e9fc5e3bffc906c8d033a0568799a23d477c7d0e041e986c94a15421413e04f28178d3a988642c97893b0c80c9909b2dbbaaf01cf8a9bd2ab7f92d13855a05d9561a9edfa275bab710e858c9846c5cd5b94dd8addaf1"
     expiration: 24
-

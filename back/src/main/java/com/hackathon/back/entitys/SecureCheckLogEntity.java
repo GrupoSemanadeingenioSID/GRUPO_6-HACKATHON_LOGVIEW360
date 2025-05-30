@@ -5,14 +5,13 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "mid_flow_log")
+@Table(name = "secure_check_log")
 public class SecureCheckLogEntity {
     private LocalDateTime timestamp;
     @Id
@@ -23,6 +22,6 @@ public class SecureCheckLogEntity {
     private String motivoFallo;
     private String modulo;
     @Enumerated(EnumType.STRING)
-    private  VerificacionesRealizadasEnum verificacionesRealizadas;
+    private VerificacionesRealizadasEnum verificacionesRealizadas;
 }
 
