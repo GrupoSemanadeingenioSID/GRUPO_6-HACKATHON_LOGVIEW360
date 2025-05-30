@@ -23,17 +23,17 @@ cd analysis
 ```bash
 # Ir a la ruta del proyecto
 cd analysis
-# Hacer el script ejecutable si no lo está
-chmod +x setup.sh
 
-# Ejecutar el script de configuración
-./setup.sh
-```
+python3 -m venv .venv
 
-3. Activar el entorno virtual:
-```bash
 source .venv/bin/activate
+
+pip install -r requirements.txt
+
+uvicorn api.core.app:app --reload
 ```
+
+
 
 ## Uso
 
