@@ -1,0 +1,122 @@
+.login {
+  &-container {
+    height: 100%;
+    min-width: 100%;
+    max-width: 1920px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(180deg, #004151 0%, #0093b7 100%);
+    background-blend-mode: multiply;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background: url("/assets/images/login-bg.jpeg") no-repeat center center;
+    background-size: cover;
+    min-height: 100%;
+    border-radius: 16px;
+  }
+
+  &__form {
+    background-color: #ffffffe5;
+    width: 396px;
+    height: 640px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem;
+    &__image {
+      width: 144px;
+      height: 65px;
+      margin: 20px auto 23px auto;
+    }
+    &__title {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 32px;
+      letter-spacing: 0.1px;
+      color: #004151;
+    }
+    &__subtitle {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: #004151;
+    }
+    &__text {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: #0c4266;
+      text-align: left;
+      min-width: 100%;
+    }
+    &__form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 22px;
+
+      &__link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        color: #59bde2;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      &__button {
+        height: 40px;
+        background: #3F5F90;
+        color: white !important;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        border-radius: 50px;
+        cursor: pointer;
+      }
+      &__input {
+        width: 90%;
+        height: 49px;
+        background: transparent;
+        border: 1px solid #74777f;
+        border-radius: 4px;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        color: #004151;
+        padding: 0px 16px;
+
+
+        &.mat-form-field-appearance-legacy .mat-form-field-flex {
+          background-color: #F9F9FF !important;
+          border-radius: 4px !important;
+          border-color: #F9F9FF !important;
+          box-shadow: none !important;
+        }
+      }
+      ::ng-deep .mat-mdc-notch-piece {
+        border: none !important;
+      }
+      ::ng-deep .mdc-floating-label {
+        background-color: #F9f9ff;
+        border-radius: 4px;
+        padding: 4px;
+      }
+      ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label {
+        color: #74777f;
+      }
+    }
+  }
+}

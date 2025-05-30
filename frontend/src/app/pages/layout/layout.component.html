@@ -1,0 +1,14 @@
+<div class="app-layout-container">
+  <div class="app-layout-container__sidebar">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="app-layout-container__topbar">
+    <app-topbar></app-topbar>
+  </div>
+  <div class="app-layout-container__content">
+    <div class="app-layout-container__content__header">
+      <h1 class="app-layout-container__content__title">{{uiStateService.title()}}</h1>
+    </div>
+    <router-outlet/>
+  </div>
+</div>

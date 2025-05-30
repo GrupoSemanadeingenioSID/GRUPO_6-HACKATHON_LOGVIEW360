@@ -1,0 +1,40 @@
+<div class="login-container">
+  <div class="login__picture"></div>
+  <div class="login__form">
+    <img
+      class="login__form__image"
+      src="/assets/vectors/img"
+      alt="imgl"
+      width="196"
+      height="75"
+    />
+    <h1 class="login__form__title">¡Bienvenido!</h1>
+    <h2 class="login__form__subtitle">Acá podrá iniciar sesion manera agil y desde cualquier lugar.</h2>
+    <p class="login__form__text">Los campos marcados con * son obligatorios.</p>
+
+    <form class="login__form__form" [formGroup]="logInForm" (ngSubmit)="submit()">
+      <mat-form-field class="login__form__form__input" appearance="outline" [floatLabel]="'always'">
+        <mat-label>Correo</mat-label>
+        <input matInput placeholder="" type="email" formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="login__form__form__input" appearance="outline" [floatLabel]="'always'">
+        <mat-label>Contraseña</mat-label>
+        <input matInput placeholder="" type="password" formControlName="password">
+      </mat-form-field>
+
+      <button mat-stroked-button class="login__form__form__button" type="submit" [disabled]="loading$ | async">
+        <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+          Continuar
+        </ng-container>
+        <ng-template #loadingTemplate>
+          Iniciando sesión...
+        </ng-template>
+      </button>
+
+      <a class="login__form__form__link" href="#">¿Olvido su contraseña?</a>
+      <mat-error *ngIf="!logInForm.valid && logInForm.touched" class="login__form__form__error">
+        Por favor, ingrese un correo y una contraseña válidos.
+      </mat-error>
+    </form>
+  </div>
+</div>

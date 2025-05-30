@@ -1,0 +1,40 @@
+<div class="document-viewer">
+  <h2 mat-dialog-title>{{infoDocument.name !== ""? infoDocument.name: "Documento"}}</h2>
+
+  <div class="document-viewer__container"
+    [style.grid-template-areas]="infoDocument.type === 'url' ? 'body body' : 'body info'">
+    <iframe [src]="sourceOrData"></iframe>
+    @if( infoDocument.type === "url"){
+    <div>
+      <div>
+        <h3>Nombre del archivo</h3> {{infoDocument.name + '.pdf'}}
+      </div>
+      <div>
+        <h3>Tamaño del archivo</h3> {{infoDocument.size}}
+      </div>
+      <div>
+        <h3>Descripción del archivo</h3> {{infoDocument.description}}
+      </div>
+      <div>
+        <h3>Fecha subida</h3> {{infoDocument.date_upload | date:'dd/MM/yyyy HH:mm:ss'}}
+      </div>
+    </div>
+    }
+  </div>
+  <mat-dialog-actions class="document-viewer__actions">
+    <button mat-stroked-button mat-dialog-close color="primary" (click)="downloadFile()">
+      Descargar
+    </button>
+    <button mat-stroked-button mat-dialog-close color="primary" (click)="cerrar()">
+      Cerrar
+    </button>
+    <button mat-mini-fab (click)="toggleFullScreen()">
+      @if (fullScreen) {
+      <mat-icon>fullscreen_exit</mat-icon>
+      } @else {
+      <mat-icon>fullscreen</mat-icon>
+      }
+    </button>
+
+  </mat-dialog-actions>
+</div>

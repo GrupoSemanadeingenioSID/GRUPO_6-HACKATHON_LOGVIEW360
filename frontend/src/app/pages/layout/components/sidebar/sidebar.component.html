@@ -1,0 +1,33 @@
+<div class="sidebar">
+  <a [routerLink]="['/app/inicio']">
+    <img
+      src="/img"
+      alt="img"
+      class="sidebar__logo"
+    />
+  </a>
+  <div class="sidebar__menu">
+    @for (item of uiStateService.sidebarItems(); track $index) {
+      <div class="sidebar__menu-container">
+        <div class="sidebar__menu-list" (click)="toggleSubMenu($index)">
+          <span class="material-symbols-outlined">{{item.isActive?'arrow_drop_down':'arrow_right'}}</span><a>{{item.name}}</a>
+        </div>
+        @if(item.isActive){
+          <div>
+            @for (subitem of item.subitems; track $index) {
+              <div class="sidebar__menu-item" (click)="navigateToUrl(subitem.url)">
+                @if (subitem.icon.endsWith('.svg')) {
+                  <img [src]="'/assets/icons/' + subitem.icon" [alt]="subitem.name" class="sidebar__icon"/>
+                } @else {
+                  <span class="material-symbols-outlined">{{subitem.icon}}</span>
+                }
+                <a>{{subitem.name}}</a>
+              </div>
+            }
+          </div>
+        }
+        <hr>
+      </div>
+    }
+  </div>
+</div>
