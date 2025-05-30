@@ -212,7 +212,7 @@ class FlowMapper:
                 if pattern['total_duration'] > duration_threshold:
                     anomaly_types.append('LONG_DURATION')
                     details.append(f"Duration: {pattern['total_duration']:.2f}s")
-                
+                    
                 if anomaly_types:
                     anomalies.append({
                         'transaction_id': pattern['transaction_id'],
@@ -234,7 +234,7 @@ class FlowMapper:
                     logger.info(f"  {anomaly_type}: {count}")
             else:
                 logger.info("No anomalies detected")
-            
+                    
             return anomalies_df if not anomalies_df.empty else pd.DataFrame({
                 'transaction_id': [],
                 'flow_path': [],
