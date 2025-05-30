@@ -1,1 +1,3 @@
 # GRUPO_6-HACKATHON_LOGVIEW360
+
+Mejora del Log
