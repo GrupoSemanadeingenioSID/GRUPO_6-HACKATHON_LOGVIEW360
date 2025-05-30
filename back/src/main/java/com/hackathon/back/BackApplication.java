@@ -49,6 +49,21 @@ CommandLineRunner runner(ICsvToJsonService service,
             System.err.println("Error al convertir LOG: " + e.getMessage());
         }
     };
+
+//    @Bean
+//    CommandLineRunner runner(ICsvToJsonService service, MidFlowLogJpaRepository repository, MidFlowLogMapper mapper){
+//        return args -> {
+//            String csvFilePath = "src/main/resources/logs_MidFlow_ESB.csv"; // Ruta del archivo CSV
+//            String delimiter = ","; // Delimitador del CSV
+//            try {
+//                List<LogMidFlowESBDto> dtos = service.convertCsvToJson(csvFilePath, delimiter);
+//                System.out.println("CSV convertido a JSON exitosamente.");
+//                repository.saveAll(dtos.stream().map(mapper::dtoToEntity).toList());
+//            } catch (Exception e) {
+//                System.err.println("Error al convertir CSV a JSON: " + e.getMessage());
+//            }
+//        };
+//    }
 }
 }
 
