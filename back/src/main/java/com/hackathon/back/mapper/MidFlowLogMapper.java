@@ -1,8 +1,9 @@
 package com.hackathon.back.mapper;
 
+import org.mapstruct.Mapper;
+
 import com.hackathon.back.dto.LogMidFlowESBDto;
 import com.hackathon.back.entitys.MidFlowLogEntity;
-import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MidFlowLogMapper {
