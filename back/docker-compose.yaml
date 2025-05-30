@@ -8,8 +8,13 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - data:/var/lib/postgresql/data
+    networks:
+      - backend
+  back:
+    image: gludsito-back:1.0
+    container_name: back
     ports:
-      - 5432:5432
+      - 8080:8080
     networks:
       - backend
 volumes:
