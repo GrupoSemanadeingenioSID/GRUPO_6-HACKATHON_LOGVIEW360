@@ -1,18 +1,28 @@
 package com.hackathon.back.entitys;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
-public class SecuCheckLog {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "mid_flow_log")
+public class SecureCheckLogEntity {
     private LocalDateTime timestamp;
+    @Id
     private String transactionId;
     private String userId;
     private String ipAddress;
     private String resultadoValidacion;
     private String motivoFallo;
     private String modulo;
-    private List<String> verificacionesRealizadas;
+    @Enumerated(EnumType.STRING)
+    private  VerificacionesRealizadasEnum verificacionesRealizadas;
 }
+

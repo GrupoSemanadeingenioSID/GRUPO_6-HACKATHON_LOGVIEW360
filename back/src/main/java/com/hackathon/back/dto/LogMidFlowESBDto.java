@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @AllArgsConstructor
 @SuperBuilder
-public class LogMidFlowESB extends CommonLog{
+public class LogMidFlowESBDto extends CommonLogDto {
 
     @CsvBindByName(column = "nivel_log", required = true)
     private String nivelLog;
@@ -20,9 +20,9 @@ public class LogMidFlowESB extends CommonLog{
     @CsvBindByName(column = "operation", required = true)
     private String operation;
 
-    @CsvBindByName(column = "status_code") // OpenCSV intentará convertir a Long
+    @CsvBindByName(column = "status_code")
     private Long statusCode;
 
-    @CsvBindByName(column = "latency_ms") // OpenCSV intentará convertir a Long
+    @CsvBindByName(column = "latency_ms")
     private Long latencyMs;
 }

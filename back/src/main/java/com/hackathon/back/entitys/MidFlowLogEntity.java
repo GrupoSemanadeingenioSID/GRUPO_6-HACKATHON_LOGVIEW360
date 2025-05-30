@@ -2,12 +2,22 @@ package com.hackathon.back.entitys;
 
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.*;
 
-@Data
-public class MidFlowLog {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "mid_flow_log")
+public class MidFlowLogEntity {
     private LocalDateTime timestamp;
     private String nivelLog;
+    @Id
     private String transactionId;
     private String direction;
     private String operation;
