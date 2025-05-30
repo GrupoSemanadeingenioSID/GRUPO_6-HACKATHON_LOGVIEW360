@@ -1,15 +1,15 @@
-<div class="app-container">
-  <div class="app-container__content">
-          <app-generic-table
-        [columns]="tableColumns"
-        [data]="applicants"
-        [pageSizeOptions]="[5, 10, 20]"
-        [pageSize]="pageSize"
-        [sizeSelectable]="false"
-        [totalItems]="totalItems"
-        [selectable]="false"
-        cellPadding="0px"
-        (pageChange)="handlePageChange($event)"
-      ></app-generic-table>
+<section class="gludcito-intro">
+  <div class="gludcito-intro__container">
+    <img src="assets/logo.png" alt="Logo Gludcito" class="gludcito-intro__logo">
+    <h1 class="gludcito-intro__title">Bienvenidos a Gludcito</h1>
+    <p class="gludcito-intro__subtitle">
+      Equipo participante en el Hackatón de Rastreo de Transacciones Financieras
+    </p>
+    <p class="gludcito-intro__description">
+      En Gludcito somos un grupo multidisciplinario comprometido con la observabilidad
+      y trazabilidad de transacciones bancarias. Nuestra solución integra procesamiento
+      en tiempo real, detección de inconsistencias y visualización de datos para mejorar la
+      seguridad y eficiencia de tus sistemas financieros.
+    </p>
   </div>
-</div>
+</section>

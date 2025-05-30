@@ -10,28 +10,23 @@ export class UIStateService {
 
 private sidebarItemsSignal = signal<any[]>([
   {
-    name: 'Tramites',
-    isActive: false,
-    subitems: [
-      { name: 'Banco', url: '/tramites', icon: 'description' },
-      { name: 'Trámites', url: '/tramites', icon: 'code' }
-    ]
-  },
-  {
-    name: 'Certificados/Productos',
+    name: 'Analisis',
     isActive: true,
     subitems: [
-      { name: 'Automatizados', url: '/automatizados', icon: 'code' },
-      { name: 'Manuales', url: '/manuales', icon: 'article' }
-    ]
+  { name: 'General', url: '/individual', icon: 'dashboard' },
+  { name: 'Secure',  url: '/secuCheck', icon: 'security' },
+  { name: 'Mid',     url: '/midFlow', icon: 'swap_horiz' },
+  { name: 'Core',    url: '/coreBank', icon: 'account_balance' }
+  ]
+
   }
 ]);
 
   private searchboxVisibleSignal = signal<boolean>(true);
   private userProfileSignal = signal<any>({
-    name: 'Tatiana Quintero',
+    name: 'Gludcito',
     role: 'Revisor',
-    email: 'tquintero@example.com',
+    email: 'glud@eglud.com',
     picture: '/assets/images/sample_avatar.png',
   });
 

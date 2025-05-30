@@ -48,6 +48,9 @@ import { authReducer } from './core/store/auth/auth.reducer';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { CoreBanckComponent } from './pages/app/coreBanck/coreBanck.component';
+import { MidFlowComponent } from './pages/app/midFlow/midFlow.component';
+import { SecuCheckComponent } from './pages/app/secuCheck/secuCheck.component';
 import { GenericTableComponent } from './pages/layout/components/generic-table/generic-table.component';
 
 @NgModule({
@@ -58,7 +61,10 @@ import { GenericTableComponent } from './pages/layout/components/generic-table/g
     LayoutComponent,
     HomeComponent,
     TransactsComponent,
-    GenericTableComponent
+    GenericTableComponent,
+    MidFlowComponent,
+    SecuCheckComponent,
+    CoreBanckComponent
   ],
   imports: [
     BrowserModule,
