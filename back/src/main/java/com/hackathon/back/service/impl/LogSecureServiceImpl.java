@@ -12,8 +12,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,12 +60,12 @@ public class LogSecureServiceImpl implements ILogSecureService {
     }
 
     @Override
-    public List<LogSecureCheckDto> findAllByFile(String filePath)  {
-
+    public List<LogSecureCheckDto> findAllByFile(InputStream filePath) {
         try {
-            ClassPathResource resource = new ClassPathResource(filePath);
-            FileInputStream fileInputStream = new FileInputStream(resource.getFile());
-            List<LogSecureCheckDto> dtos = jsonMapper.readValue(fileInputStream, new TypeReference<List<LogSecureCheckDto>>() {});
+            if (filePath.available() == 0) {
+                throw new IllegalArgumentException("El archivo de logs está vacío.");
+            }
+            List<LogSecureCheckDto> dtos = jsonMapper.readValue(filePath, new TypeReference<List<LogSecureCheckDto>>() {});
             return dtos;
         } catch (Exception e) {
             throw new RuntimeException("Error reading file: " + filePath, e);

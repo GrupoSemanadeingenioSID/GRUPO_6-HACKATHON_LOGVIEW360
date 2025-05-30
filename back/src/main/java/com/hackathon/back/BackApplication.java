@@ -1,5 +1,8 @@
 package com.hackathon.back;
 
+
+import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,9 +66,11 @@ CommandLineRunner runner(LogCoreBankLogToJson toJson,
         } catch (Exception e) {
             System.err.println("Error al convertir LOG: " + e.getMessage());
         }
-        System.out.println(LocalDateTime.now());
-        List<LogSecureCheckDto> dtos = logSecureService.findAllByFile("logs_SecuCheck.json");
-        secureCheckLogJpaRepository.saveAll(dtos.stream().map(secureLogCheckMapper::toEntity).toList());
+        ClassPathResource resource = new ClassPathResource("logs_SecuCheck.json");
+        try (InputStream inputStream = resource.getInputStream()) {
+            List<LogSecureCheckDto> dtos = logSecureService.findAllByFile(inputStream);
+            secureCheckLogJpaRepository.saveAll(dtos.stream().map(secureLogCheckMapper::toEntity).toList());
+        }
 
     };
 }
