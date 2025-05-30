@@ -21,7 +21,7 @@ public class MidFlowLogEntity {
     private String transactionId;
     private String direction;
     private String operation;
-    private int statusCode;
+    private Long statusCode;
     private Long latencyMs; // Nullable para request
     private String userId;
     private String ipAddress;

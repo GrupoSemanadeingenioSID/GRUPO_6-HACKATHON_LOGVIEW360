@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,6 +22,6 @@ public class SecureCheckLogEntity {
     private String motivoFallo;
     private String modulo;
     @Enumerated(EnumType.STRING)
-    private  VerificacionesRealizadasEnum verificacionesRealizadas;
+    private VerificacionesRealizadasEnum verificacionesRealizadas;
 }
 

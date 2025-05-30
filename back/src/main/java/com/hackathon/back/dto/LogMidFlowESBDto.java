@@ -7,8 +7,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
+@ToString(callSuper = true)
 public class LogMidFlowESBDto extends CommonLogDto {
 
     @CsvBindByName(column = "nivel_log", required = true)
