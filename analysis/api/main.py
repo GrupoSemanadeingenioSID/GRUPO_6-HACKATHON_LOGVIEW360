@@ -7,6 +7,8 @@ from typing import List, Dict, Optional
 import uvicorn
 from datetime import datetime
 import os
+import pandas as pd
+import numpy as np
 
 from data_ingestion.merger import LogMerger
 from processing.normalizer import LogNormalizer
@@ -128,17 +130,62 @@ async def get_transaction_trace(transaction_id: str):
             
         flow, timestamps = flow_mapper.map_transaction_flow(df, transaction_id)
         
+        # Validar y limpiar timestamps
+        valid_timestamps = {}
+        for stage, ts in zip(flow, timestamps):
+            try:
+                if pd.isna(ts) or np.isinf(ts):
+                    logger.warning(f"Invalid timestamp for stage {stage} in transaction {transaction_id}")
+                    valid_timestamps[stage] = None
+                else:
+                    valid_timestamps[stage] = float(ts)
+            except Exception as e:
+                logger.warning(f"Error processing timestamp for stage {stage}: {str(e)}")
+                valid_timestamps[stage] = None
+        
+        # Validar latencias
+        latencies = {}
+        for metric in ['service_latency', 'total_latency', 'e2e_latency']:
+            try:
+                value = transaction[metric].iloc[0]
+                if pd.isna(value) or np.isinf(value):
+                    logger.warning(f"Invalid {metric} for transaction {transaction_id}")
+                    latencies[metric] = None
+                else:
+                    latencies[metric] = float(value)
+            except Exception as e:
+                logger.warning(f"Error processing {metric}: {str(e)}")
+                latencies[metric] = None
+        
+        # Validar amount
+        try:
+            amount = transaction['amount'].iloc[0]
+            if pd.isna(amount) or np.isinf(amount):
+                logger.warning(f"Invalid amount for transaction {transaction_id}")
+                amount = None
+            else:
+                amount = float(amount)
+        except Exception as e:
+            logger.warning(f"Error processing amount: {str(e)}")
+            amount = None
+            
+        # Validar status
+        try:
+            status = transaction['status'].iloc[0]
+            if pd.isna(status):
+                logger.warning(f"Invalid status for transaction {transaction_id}")
+                status = "UNKNOWN"
+        except Exception as e:
+            logger.warning(f"Error processing status: {str(e)}")
+            status = "UNKNOWN"
+        
         return {
             "transaction_id": transaction_id,
-            "flow_path": "->".join(flow),
-            "timestamps": {stage: ts for stage, ts in zip(flow, timestamps)},
-            "latencies": {
-                "service": transaction['service_latency'].iloc[0],
-                "total": transaction['total_latency'].iloc[0],
-                "e2e": transaction['e2e_latency'].iloc[0]
-            },
-            "status": transaction['status'].iloc[0],
-            "amount": transaction['amount'].iloc[0]
+            "flow_path": "->".join(flow) if flow else "",
+            "timestamps": valid_timestamps,
+            "latencies": latencies,
+            "status": status,
+            "amount": amount
         }
     except HTTPException:
         raise

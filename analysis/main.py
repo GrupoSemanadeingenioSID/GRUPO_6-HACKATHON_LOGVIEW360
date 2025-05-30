@@ -122,9 +122,9 @@ def main():
         
         # Count unique anomalies by type
         if not flow_anomalies.empty:
-            pattern_anomalies = sum(1 for types in flow_anomalies['anomaly_type'] 
+            pattern_anomalies = sum(1 for types in flow_anomalies['anomaly_types'] 
                                   if any(t in types for t in ['INCOMPLETE_FLOW', 'MISSING_STAGES']))
-            sequence_anomalies = sum(1 for types in flow_anomalies['anomaly_type'] 
+            sequence_anomalies = sum(1 for types in flow_anomalies['anomaly_types'] 
                                    if 'LONG_DURATION' in types)
         else:
             pattern_anomalies = 0
