@@ -12,6 +12,10 @@ seaborn==0.13.0
 # Network analysis
 networkx==3.2.1
 
+# API Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
 # Configuration
 python-dotenv==1.0.0
 
