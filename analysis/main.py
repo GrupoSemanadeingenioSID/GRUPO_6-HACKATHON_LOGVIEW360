@@ -101,14 +101,6 @@ def main():
             index=False
         )
         
-        # Guardar visualizaciones
-        latency_analyzer.plot_latency_distribution(
-            normalized_df,
-            'e2e_latency',
-            'Distribución de Latencia End-to-End',
-            os.path.join(output_dir, f"latency_distribution_{timestamp}.png")
-        )
-        
         # Imprimir resumen
         print("\n=== Resumen del Análisis ===")
         print("\nEstadísticas de Latencia:")

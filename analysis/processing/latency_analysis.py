@@ -5,8 +5,6 @@ from typing import Dict, List, Optional, Tuple
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 from utils.logger import setup_logger
 
@@ -107,6 +105,47 @@ class LatencyAnalyzer:
             logger.error(f"Error analyzing latencies by dimension: {str(e)}")
             raise
             
+    def analyze_trends(
+        self,
+        df: pd.DataFrame,
+        latency_col: str,
+        window: str = '5min'
+    ) -> pd.DataFrame:
+        """
+        Analyze latency trends over time.
+        
+        Args:
+            df (pd.DataFrame): Input dataframe
+            latency_col (str): Name of latency column to analyze
+            window (str): Time window for rolling calculations
+            
+        Returns:
+            pd.DataFrame: Trend analysis results
+        """
+        try:
+            # Sort by timestamp
+            df = df.sort_values('timestamp_secu')
+            
+            # Calculate rolling statistics
+            trends = pd.DataFrame()
+            trends['timestamp'] = df['timestamp_secu']
+            trends['latency'] = df[latency_col]
+            trends['rolling_mean'] = df[latency_col].rolling(window=window).mean()
+            trends['rolling_std'] = df[latency_col].rolling(window=window).std()
+            trends['rolling_max'] = df[latency_col].rolling(window=window).max()
+            
+            # Calculate trend indicators
+            trends['trend'] = trends['rolling_mean'].diff().fillna(0)
+            trends['volatility'] = (
+                trends['rolling_std'] / trends['rolling_mean']
+            ).fillna(0)
+            
+            return trends
+            
+        except Exception as e:
+            logger.error(f"Error analyzing trends: {str(e)}")
+            raise
+            
     def find_bottlenecks(
         self,
         df: pd.DataFrame,
@@ -159,85 +198,4 @@ class LatencyAnalyzer:
             
         except Exception as e:
             logger.error(f"Error finding bottlenecks: {str(e)}")
-            raise
-            
-    def analyze_trends(
-        self,
-        df: pd.DataFrame,
-        latency_col: str,
-        window: str = '5min'
-    ) -> pd.DataFrame:
-        """
-        Analyze latency trends over time.
-        
-        Args:
-            df (pd.DataFrame): Input dataframe
-            latency_col (str): Name of latency column to analyze
-            window (str): Time window for rolling calculations
-            
-        Returns:
-            pd.DataFrame: Trend analysis results
-        """
-        try:
-            # Sort by timestamp
-            df = df.sort_values('timestamp_secu')
-            
-            # Calculate rolling statistics
-            trends = pd.DataFrame()
-            trends['timestamp'] = df['timestamp_secu']
-            trends['latency'] = df[latency_col]
-            trends['rolling_mean'] = df[latency_col].rolling(window=window).mean()
-            trends['rolling_std'] = df[latency_col].rolling(window=window).std()
-            trends['rolling_max'] = df[latency_col].rolling(window=window).max()
-            
-            # Calculate trend indicators
-            trends['trend'] = trends['rolling_mean'].diff().fillna(0)
-            trends['volatility'] = (
-                trends['rolling_std'] / trends['rolling_mean']
-            ).fillna(0)
-            
-            return trends
-            
-        except Exception as e:
-            logger.error(f"Error analyzing trends: {str(e)}")
-            raise
-            
-    def plot_latency_distribution(
-        self,
-        df: pd.DataFrame,
-        latency_col: str,
-        title: str = None,
-        save_path: Optional[str] = None
-    ) -> None:
-        """
-        Plot latency distribution.
-        
-        Args:
-            df (pd.DataFrame): Input dataframe
-            latency_col (str): Name of latency column to plot
-            title (str, optional): Plot title
-            save_path (str, optional): Path to save plot
-        """
-        try:
-            plt.figure(figsize=(10, 6))
-            
-            # Create distribution plot
-            sns.histplot(data=df, x=latency_col, kde=True)
-            
-            # Add vertical lines for statistics
-            plt.axvline(df[latency_col].mean(), color='r', linestyle='--', label='Mean')
-            plt.axvline(df[latency_col].median(), color='g', linestyle='--', label='Median')
-            plt.axvline(df[latency_col].quantile(0.95), color='y', linestyle='--', label='95th %ile')
-            
-            plt.title(title or f'Distribution of {latency_col}')
-            plt.xlabel('Latency (seconds)')
-            plt.ylabel('Count')
-            plt.legend()
-            
-            if save_path:
-                plt.savefig(save_path)
-            plt.close()
-            
-        except Exception as e:
-            logger.error(f"Error plotting distribution: {str(e)}")
             raise 
