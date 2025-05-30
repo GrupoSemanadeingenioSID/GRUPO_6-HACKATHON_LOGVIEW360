@@ -1,6 +1,93 @@
-# LogView360 Analysis Module
+# LogView360 - Módulo de Análisis
 
-This module contains the data processing and analysis components for the LogView360 project.
+Este módulo contiene los componentes de procesamiento y análisis para el proyecto LogView360.
+
+## Requisitos Previos
+
+- Python 3.8 o superior
+- pip (gestor de paquetes de Python)
+- Archivos de log en el directorio `source/`:
+  - `logs_SecuCheck.json`
+  - `logs_MidFlow_ESB.csv`
+  - `logs_CoreBank.log`
+
+## Configuración del Entorno
+
+1. Clonar el repositorio:
+```bash
+git clone <repo_url>
+cd analysis
+```
+
+2. Configurar el entorno virtual y las dependencias:
+```bash
+# Ir a la ruta del proyecto
+cd analysis
+# Hacer el script ejecutable si no lo está
+chmod +x setup.sh
+
+# Ejecutar el script de configuración
+./setup.sh
+```
+
+3. Activar el entorno virtual:
+```bash
+source .venv/bin/activate
+```
+
+## Uso
+
+1. Asegurarse de que los archivos de log estén en el directorio `source/`
+
+2. Ejecutar el análisis:
+```bash
+python main.py
+```
+
+3. Los resultados se guardarán en el directorio `output/` con la siguiente estructura:
+   - `normalized_data_[timestamp].csv`: Datos normalizados
+   - `bottlenecks_[timestamp].csv`: Cuellos de botella detectados
+   - `flow_patterns_[timestamp].csv`: Patrones de flujo
+   - `latency_distribution_[timestamp].png`: Visualización de distribución de latencias
+
+## Componentes
+
+### Ingesta de Datos
+- `secucheck_parser.py`: Parser para logs de seguridad
+- `midflow_parser.py`: Parser para logs de middleware
+- `corebank_parser.py`: Parser para logs bancarios
+- `merger.py`: Unificación de logs por transaction_id
+
+### Procesamiento
+- `normalizer.py`: Estandarización de campos
+- `latency_analysis.py`: Análisis de latencias
+- `anomaly_detector.py`: Detección de anomalías
+- `flow_mapper.py`: Mapeo de flujos de transacción
+
+### Utilidades
+- `logger.py`: Configuración de logging
+- `config.py`: Configuraciones del sistema
+
+## Resultados
+
+El análisis genera:
+1. Estadísticas de latencia por componente
+2. Detección de cuellos de botella
+3. Identificación de anomalías
+4. Mapeo de flujos de transacción
+5. Visualizaciones de distribuciones
+
+## Mantenimiento
+
+Para desactivar el entorno virtual:
+```bash
+deactivate
+```
+
+Para actualizar dependencias:
+```bash
+pip install -r requirements.txt
+```
 
 ## Directory Structure
 
@@ -12,28 +99,4 @@ This module contains the data processing and analysis components for the LogView
 ├── api/                # FastAPI endpoints
 ├── dashboards/         # Jupyter notebooks for analysis
 └── utils/             # Utility functions and configurations
-```
-
-## Components
-
-### Data Ingestion
-- `secucheck_parser.py`: Parser for security check logs
-- `midflow_parser.py`: Parser for middleware flow logs
-- `corebank_parser.py`: Parser for core banking logs
-- `merger.py`: Combines logs based on transaction_id
-
-### Processing
-- `normalizer.py`: Field normalization (IP, states, users)
-- `latency_analysis.py`: Transaction latency analysis
-- `anomaly_detector.py`: Anomaly detection in latencies and inconsistencies
-- `flow_mapper.py`: Transaction flow mapping
-
-### Models
-- `clustering_model.py`: ML models for pattern detection
-
-### API
-- `main.py`: FastAPI application for external communication
-
-### Utils
-- `logger.py`: Logging configuration
-- `config.py`: Global configuration settings 
+``` 

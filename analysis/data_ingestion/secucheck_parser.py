@@ -3,6 +3,7 @@ Parser for security check logs.
 """
 from typing import Dict, List, Optional
 import pandas as pd
+import json
 from datetime import datetime
 
 from utils.logger import setup_logger
@@ -21,30 +22,6 @@ class SecucheckParser:
         """
         self.log_path = log_path
         
-    def parse_line(self, line: str) -> Optional[Dict]:
-        """
-        Parse a single log line.
-        
-        Args:
-            line (str): Log line to parse
-            
-        Returns:
-            Optional[Dict]: Parsed log entry or None if line is invalid
-        """
-        try:
-            # TODO: Implement actual parsing logic based on log format
-            return {
-                'timestamp': None,
-                'transaction_id': None,
-                'user_id': None,
-                'status': None,
-                'ip_address': None,
-                'details': None
-            }
-        except Exception as e:
-            logger.error(f"Error parsing line: {str(e)}")
-            return None
-            
     def parse_file(self) -> pd.DataFrame:
         """
         Parse the entire log file.
@@ -53,14 +30,29 @@ class SecucheckParser:
             pd.DataFrame: Parsed log data
         """
         try:
-            parsed_logs = []
             with open(self.log_path, 'r') as f:
-                for line in f:
-                    parsed_line = self.parse_line(line.strip())
-                    if parsed_line:
-                        parsed_logs.append(parsed_line)
+                logs = json.load(f)
+                
+            # Convert list of dictionaries to DataFrame
+            df = pd.DataFrame(logs)
             
-            return pd.DataFrame(parsed_logs)
+            # Convert timestamp to datetime
+            df['timestamp'] = pd.to_datetime(df['timestamp'])
+            
+            # Normalize column names
+            df = df.rename(columns={
+                'resultado_validación': 'validation_result',
+                'motivo_fallo': 'failure_reason',
+                'módulo': 'module',
+                'verificaciones_realizadas': 'verifications',
+                'timestamp': 'timestamp_secu'
+            })
+            
+            # Convert verifications list to string for easier processing
+            df['verifications'] = df['verifications'].apply(lambda x: ','.join(x))
+            
+            return df
+            
         except Exception as e:
             logger.error(f"Error parsing file: {str(e)}")
             raise 
