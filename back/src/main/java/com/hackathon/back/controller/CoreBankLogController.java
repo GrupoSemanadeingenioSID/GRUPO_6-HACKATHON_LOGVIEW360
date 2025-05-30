@@ -12,7 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoreBankLogController {
     private final ICoreBankLogService service;
 
-    public ResponseEntity<Object> getAll(@PageableDefault(size = 10,page = 0)){
 
-    }
 }

@@ -14,5 +14,4 @@ public class LogCoreBankDto extends CommonLogDto {
     private String tipoCuenta;
     private String estado;
     private Double valor;
-
 }

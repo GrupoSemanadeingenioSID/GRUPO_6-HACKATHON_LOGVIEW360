@@ -49,37 +49,4 @@ public class CsvToJsonServiceImpl implements ICsvToJsonService {
         return null;
     }
 
-
-    @Override
-    public List<LogMidFlowESBDto> convertLogToJson(String path) throws IOException {
-        List<LogMidFlowESBDto> dtos = new ArrayList<>();
-
-        Pattern pattern = Pattern.compile(
-                "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}) .*? \\[(\\w+)] (\\w+)@(\\d+\\.\\d+\\.\\d+\\.\\d+) .*?transaction: (txn-\\d+), tipo: (\\w+), cuenta: (\\w+), estado: (\\w+), valor: ([\\d.]+)"
-        );
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.find()) {
-                    LogMidFlowESBDto dto = new LogMidFlowESBDto();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-                    dto.setTimestamp(LocalDateTime.parse(matcher.group(1), formatter));
-                    dto.setCanal(matcher.group(2));
-                    dto.setUsuario(matcher.group(3));
-                    dto.setIp(matcher.group(4));
-                    dto.setTransaccionId(matcher.group(5));
-                    dto.setTipoTransaccion(matcher.group(6));
-                    dto.setCuenta(matcher.group(7));
-                    dto.setEstado(matcher.group(8));
-                    dto.setValor(Double.parseDouble(matcher.group(9)));
-
-                    dtos.add(dto);
-                }
-            }
-        }
-
-        return dtos;
-    }
 }

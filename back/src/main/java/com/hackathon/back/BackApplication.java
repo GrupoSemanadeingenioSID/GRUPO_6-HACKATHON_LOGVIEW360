@@ -2,6 +2,11 @@ package com.hackathon.back;
 
 import java.util.List;
 
+import com.hackathon.back.dto.LogCoreBankDto;
+import com.hackathon.back.mapper.CoreBankLogMapper;
+import com.hackathon.back.repository.CoreBankLogJpaRepository;
+import com.hackathon.back.service.ICoreBankLogService;
+import com.hackathon.back.service.LogCoreBankLogToJson;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,9 +26,12 @@ public class BackApplication {
     }
 
 @Bean
-CommandLineRunner runner(ICsvToJsonService service,
-                          MidFlowLogJpaRepository repository,
-                          MidFlowLogMapper mapper) {
+CommandLineRunner runner(LogCoreBankLogToJson toJson,
+                         ICsvToJsonService service,
+                         CoreBankLogJpaRepository repositoryCoreBank,
+                         MidFlowLogJpaRepository midFlowLogJpaRepository,
+                         MidFlowLogMapper midFlowMapper,
+                         CoreBankLogMapper coreBankLogMapper) {
     return args -> {
         String delimiter = ",";
 
@@ -33,7 +41,7 @@ CommandLineRunner runner(ICsvToJsonService service,
             String csvFilePath = csvResource.getFile().getAbsolutePath();
             List<LogMidFlowESBDto> csvDtos = service.convertCsvToJson(csvFilePath, delimiter);
             System.out.println("CSV convertido a JSON exitosamente.");
-            repository.saveAll(csvDtos.stream().map(mapper::dtoToEntity).toList());
+            midFlowLogJpaRepository.saveAll(csvDtos.stream().map(midFlowMapper::dtoToEntity).toList());
         } catch (Exception e) {
             System.err.println("Error al convertir CSV: " + e.getMessage());
         }
@@ -42,9 +50,9 @@ CommandLineRunner runner(ICsvToJsonService service,
         try {
             ClassPathResource logResource = new ClassPathResource("logs_CoreBank.log");
             String logFilePath = logResource.getFile().getAbsolutePath();
-            List<LogMidFlowESBDto> logDtos = service.convertLogToJson(logFilePath); // Este método debes implementarlo
+            List<LogCoreBankDto> logDtos = toJson.convertLogsToJson(logFilePath); // Este método debes implementarlo
             System.out.println("LOG convertido a JSON exitosamente.");
-            repository.saveAll(logDtos.stream().map(mapper::dtoToEntity).toList());
+            repositoryCoreBank.saveAll(logDtos.stream().map(coreBankLogMapper::dtoToEntity).toList());
         } catch (Exception e) {
             System.err.println("Error al convertir LOG: " + e.getMessage());
         }
