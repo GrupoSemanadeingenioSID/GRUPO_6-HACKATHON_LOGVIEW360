@@ -48,6 +48,7 @@ import { authReducer } from './core/store/auth/auth.reducer';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { GenericTableComponent } from './pages/layout/components/generic-table/generic-table.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     LayoutComponent,
     HomeComponent,
     TransactsComponent,
+    GenericTableComponent
   ],
   imports: [
     BrowserModule,

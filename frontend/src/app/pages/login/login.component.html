@@ -3,12 +3,12 @@
   <div class="login__form">
     <img
       class="login__form__image"
-      src="/assets/vectors/img"
+      src="/assets/logo.png"
       alt="imgl"
-      width="196"
+      width="75"
       height="75"
     />
-    <h1 class="login__form__title">¡Bienvenido!</h1>
+    <h1 class="login__form__title">¡Bienvenido a LogView 360!</h1>
     <h2 class="login__form__subtitle">Acá podrá iniciar sesion manera agil y desde cualquier lugar.</h2>
     <p class="login__form__text">Los campos marcados con * son obligatorios.</p>
 
@@ -31,7 +31,7 @@
         </ng-template>
       </button>
 
-      <a class="login__form__form__link" href="#">¿Olvido su contraseña?</a>
+      <a class="login__form__form__link" (click)="forgetPassword()" >¿Olvido su contraseña?</a>
       <mat-error *ngIf="!logInForm.valid && logInForm.touched" class="login__form__form__error">
         Por favor, ingrese un correo y una contraseña válidos.
       </mat-error>

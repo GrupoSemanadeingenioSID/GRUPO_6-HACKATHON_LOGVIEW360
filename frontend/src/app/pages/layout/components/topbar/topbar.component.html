@@ -29,11 +29,8 @@
       <div class="topbar__container__profile__data__role">{{ uiStateService.userProfile().role }}</div>
     </div>
     <div class="topbar__container__profile__avatar" [matMenuTriggerFor]="profileMenu">
-      <img
-        [src]="uiStateService.userProfile().picture || '/assets/images/sample_avatar.png'"
-        alt="Avatar"
-        class="topbar__container__profile__avatar__image"
-      />
+<mat-icon class="topbar__container__profile__avatar__image">account_circle</mat-icon>
+
     </div>
     <mat-menu #profileMenu="matMenu" xPosition="before">
       <div class="topbar__container__profile__menu__item">
