@@ -43,7 +43,7 @@ class SecucheckParser:
             df = df.rename(columns={
                 'resultado_validación': 'validation_result',
                 'motivo_fallo': 'failure_reason',
-                'módulo': 'module',
+                'modulo': 'module',
                 'verificaciones_realizadas': 'verifications',
                 'timestamp': 'timestamp_secu'
             })

@@ -198,60 +198,52 @@ class FlowMapper:
                 anomaly_types = []
                 details = []
                 
-                # Get flow stages
-                stages = pattern['flow_path'].split('->')
-                
-                # Check for incomplete flows (less than minimum stages)
-                # But only if it's not a valid "SECURITY_CHECK only" flow
-                if (pattern['num_stages'] < min_stages and 
-                    not (pattern['num_stages'] == 1 and stages[0] == 'SECURITY_CHECK')):
+                # Check for incomplete flows
+                if not pattern['is_complete']:
                     anomaly_types.append('INCOMPLETE_FLOW')
-                    details.append(
-                        f"Only {pattern['num_stages']} stages found, minimum {min_stages} required"
-                    )
+                    details.append(f"Missing stages: {len(self.stages) - pattern['num_stages']}")
                 
-                # Check for invalid flow sequences
-                if len(stages) >= 2:
-                    # Get indices of stages in the expected sequence
-                    stage_indices = [self.stages.index(s) for s in stages]
-                    
-                    # Check for missing intermediate stages
-                    for i in range(len(stage_indices) - 1):
-                        if stage_indices[i+1] - stage_indices[i] > 1:
-                            missing_stages = self.stages[stage_indices[i]+1:stage_indices[i+1]]
-                            anomaly_types.append('MISSING_STAGES')
-                            details.append(
-                                f"Missing stages between {stages[i]} and {stages[i+1]}: {', '.join(missing_stages)}"
-                            )
+                # Check for minimum stages
+                if pattern['num_stages'] < min_stages:
+                    anomaly_types.append('MISSING_STAGES')
+                    details.append(f"Only {pattern['num_stages']} stages found")
                 
-                # Check for duration anomalies only in complete flows
-                if len(stages) > 1:  # Solo para flujos que no son solo SECURITY_CHECK
-                    if pattern['total_duration'] > duration_threshold:
-                        anomaly_types.append('LONG_DURATION')
-                        details.append(
-                            f"Duration: {pattern['total_duration']:.2f}s exceeds threshold of {duration_threshold:.2f}s"
-                        )
-                    
+                # Check for long duration
+                if pattern['total_duration'] > duration_threshold:
+                    anomaly_types.append('LONG_DURATION')
+                    details.append(f"Duration: {pattern['total_duration']:.2f}s")
+                
                 if anomaly_types:
                     anomalies.append({
                         'transaction_id': pattern['transaction_id'],
                         'flow_path': pattern['flow_path'],
-                        'anomaly_type': anomaly_types,
+                        'anomaly_types': anomaly_types,
                         'details': details,
-                        'num_stages': pattern['num_stages'],
-                        'total_duration': pattern['total_duration']
+                        'total_duration': pattern['total_duration'],
+                        'num_stages': pattern['num_stages']
                     })
             
-            # Create DataFrame and log summary
+            # Create anomalies dataframe
             anomalies_df = pd.DataFrame(anomalies)
+            
+            # Log anomaly statistics
             if not anomalies_df.empty:
-                logger.info("\nAnomaly Summary:")
+                logger.info(f"Found {len(anomalies_df)} anomalies")
                 for anomaly_type in ['INCOMPLETE_FLOW', 'MISSING_STAGES', 'LONG_DURATION']:
-                    count = sum(anomalies_df['anomaly_type'].apply(lambda x: anomaly_type in x))
-                    logger.info(f"  {anomaly_type}: {count} transactions")
-                    
-            return anomalies_df
+                    count = len(anomalies_df[anomalies_df['anomaly_types'].apply(lambda x: anomaly_type in x)])
+                    logger.info(f"  {anomaly_type}: {count}")
+            else:
+                logger.info("No anomalies detected")
+            
+            return anomalies_df if not anomalies_df.empty else pd.DataFrame({
+                'transaction_id': [],
+                'flow_path': [],
+                'anomaly_types': [],
+                'details': [],
+                'total_duration': [],
+                'num_stages': []
+            })
             
         except Exception as e:
-            logger.error(f"Error detecting flow anomalies: {str(e)}")
+            logger.error(f"Error detecting anomalies: {str(e)}")
             raise 
