@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,13 +74,13 @@ public class LogCoreBankLogToJsonImpl implements LogCoreBankLogToJson {
     }
 
     @Override
-    public List<LogCoreBankDto> convertLogsToJson(String filePatH) {
-        try(FileInputStream file = new FileInputStream(filePatH);){
-            if (file.available() == 0) {
+    public List<LogCoreBankDto> convertLogsToJson(InputStream filePatH) {
+        try{
+            if (filePatH.available() == 0) {
                 throw new IllegalArgumentException("El archivo de logs está vacío.");
             }
             List<String> logLines = new ArrayList<>();
-            try (BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(file))) {
+            try (BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(filePatH))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     logLines.add(line);

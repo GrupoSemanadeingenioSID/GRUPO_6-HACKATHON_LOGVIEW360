@@ -36,14 +36,4 @@ public class LogMidFlowESBDto extends CommonLogDto {
     @CsvBindByName(column = "latency_ms")
     private Long latencyMs;
 
-    // Campos adicionales para LOG (no afectan el parseo del CSV)
-    private LocalDateTime timestamp;
-    private String canal;
-    private String usuario;
-    private String ip;
-    private String transaccionId;
-    private String tipoTransaccion;
-    private String cuenta;
-    private String estado;
-    private Double valor;
 }

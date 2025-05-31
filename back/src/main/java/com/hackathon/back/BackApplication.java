@@ -1,6 +1,8 @@
 package com.hackathon.back;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -46,10 +48,8 @@ CommandLineRunner runner(LogCoreBankLogToJson toJson,
         String delimiter = ",";
 
         // Procesar archivo CSV
-        try {
-            ClassPathResource csvResource = new ClassPathResource("logs_MidFlow_ESB.csv");
-            String csvFilePath = csvResource.getFile().getAbsolutePath();
-            List<LogMidFlowESBDto> csvDtos = service.convertCsvToJson(csvFilePath, delimiter);
+        try (InputStream stream = BackApplication.class.getClassLoader().getResourceAsStream("logs_MidFlow_ESB.csv")) {
+            List<LogMidFlowESBDto> csvDtos = service.convertCsvToJson(stream, delimiter);
             System.out.println("CSV convertido a JSON exitosamente.");
             midFlowLogJpaRepository.saveAll(csvDtos.stream().map(midFlowMapper::dtoToEntity).toList());
         } catch (Exception e) {
@@ -57,18 +57,17 @@ CommandLineRunner runner(LogCoreBankLogToJson toJson,
         }
 
         // Procesar archivo LOG
-        try {
-            ClassPathResource logResource = new ClassPathResource("logs_CoreBank.log");
-            String logFilePath = logResource.getFile().getAbsolutePath();
-            List<LogCoreBankDto> logDtos = toJson.convertLogsToJson(logFilePath); // Este método debes implementarlo
+        try(InputStream stream = BackApplication.class.getClassLoader().getResourceAsStream("logs_CoreBank.log")) {
+
+            List<LogCoreBankDto> logDtos = toJson.convertLogsToJson(stream);
             System.out.println("LOG convertido a JSON exitosamente.");
             repositoryCoreBank.saveAll(logDtos.stream().map(coreBankLogMapper::dtoToEntity).toList());
         } catch (Exception e) {
             System.err.println("Error al convertir LOG: " + e.getMessage());
         }
-        ClassPathResource resource = new ClassPathResource("logs_SecuCheck.json");
-        try (InputStream inputStream = resource.getInputStream()) {
-            List<LogSecureCheckDto> dtos = logSecureService.findAllByFile(inputStream);
+
+        try (InputStream stream = BackApplication.class.getClassLoader().getResourceAsStream("logs_SecuCheck.json")) {
+            List<LogSecureCheckDto> dtos = logSecureService.findAllByFile(stream);
             secureCheckLogJpaRepository.saveAll(dtos.stream().map(secureLogCheckMapper::toEntity).toList());
         }
 
