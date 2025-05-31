@@ -32,3 +32,64 @@
     </div>
   </div>
 </div>
+
+
+<!-- Descripción de la vista de métricas -->
+<div class="description">
+  <p>Esta sección muestra un resumen interactivo de las métricas del sistema divididas en varias tarjetas:</p>
+
+  <ul>
+    <li>
+      <strong>Fecha y hora del análisis (Timestamp):</strong>
+      <p>Indica el instante exacto en que se tomó la muestra de datos. Se presenta en formato legible según la configuración regional.</p>
+    </li>
+    <li>
+      <strong>Estadísticas de latencia (Latency Stats):</strong>
+      <p>Cada métrica refleja el comportamiento temporal de las peticiones:</p>
+      <dl>
+        <dt><em>Media</em> (mean):</dt>
+        <dd>Promedio de todos los tiempos de respuesta.</dd>
+        <dt><em>Mediana</em> (median):</dt>
+        <dd>Valor que separa la mitad superior de la inferior de los tiempos.</dd>
+        <dt><em>Desviación estándar</em> (std):</dt>
+        <dd>Grado de dispersión de los tiempos respecto a la media.</dd>
+        <dt><em>Mínimo</em> (min):</dt>
+        <dd>Tiempo de respuesta más rápido registrado.</dd>
+        <dt><em>Máximo</em> (max):</dt>
+        <dd>Tiempo de respuesta más lento registrado.</dd>
+        <dt><em>Percentil 95</em> (p95):</dt>
+        <dd>Valor por debajo del cual se ubican el 95 % de los tiempos de respuesta.</dd>
+        <dt><em>Percentil 99</em> (p99):</dt>
+        <dd>Valor por debajo del cual se ubica el 99 % de los tiempos de respuesta.</dd>
+      </dl>
+    </li>
+    <li>
+      <strong>Estadísticas de flujo (Flow Stats):</strong>
+      <p>Describe la eficiencia de los procesos end-to-end:</p>
+      <dl>
+        <dt><em>Porcentaje de flujos completos</em> (complete_flow_pct):</dt>
+        <dd>Proporción de procesos que finalizaron exitosamente.</dd>
+        <dt><em>Etapas promedio</em> (avg_stages):</dt>
+        <dd>Número medio de pasos que atraviesa cada flujo.</dd>
+        <dt><em>Duración promedio</em> (avg_duration):</dt>
+        <dd>Tiempo medio en segundos que tarda un flujo completo.</dd>
+        <dt><em>Duración mínima</em> (min_duration):</dt>
+        <dd>Tiempo más corto registrado para un flujo completo.</dd>
+        <dt><em>Duración máxima</em> (max_duration):</dt>
+        <dd>Tiempo más largo registrado para un flujo completo.</dd>
+      </dl>
+    </li>
+    <li>
+      <strong>Conteo de anomalías (Anomaly Counts):</strong>
+      <p>Resumen de eventos anómalos detectados en los datos:</p>
+      <dl>
+        <dt><em>Anomalías de patrón</em> (pattern):</dt>
+        <dd>Casos donde la secuencia o valores no siguen el comportamiento esperado.</dd>
+        <dt><em>Anomalías de secuencia</em> (sequence):</dt>
+        <dd>Ocurrencias de etapas fuera de orden o faltantes.</dd>
+        <dt><em>Cuellos de botella</em> (bottlenecks):</dt>
+        <dd>Puntos donde la latencia supera los umbrales definidos.</dd>
+      </dl>
+    </li>
+  </ul>
+</div>

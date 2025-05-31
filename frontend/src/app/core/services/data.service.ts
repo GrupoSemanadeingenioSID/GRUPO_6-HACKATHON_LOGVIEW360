@@ -13,7 +13,7 @@ export interface MetricsResponse {
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class TransactsService {
   private readonly API_URL = 'http://127.0.0.1:8000/api/v1/metrics/latency';
 
   constructor(private http: HttpClient) {}

@@ -1,14 +1,16 @@
 """
 Main FastAPI application configuration.
 """
-from fastapi import FastAPI
 import uvicorn
+from fastapi import FastAPI
+
+from api.controllers.user_controller import router as user_router
+from utils.config import API_HOST, API_PORT
 
 from ..controllers.log_controller import LogController
-from ..services.log_service import LogService
 from ..repositories.log_repository import LogRepository
-from utils.config import API_HOST, API_PORT
-from api.controllers.user_controller import router as user_router
+from ..services.log_service import LogService
+
 
 def create_app() -> FastAPI:
     """Create and configure FastAPI application."""
