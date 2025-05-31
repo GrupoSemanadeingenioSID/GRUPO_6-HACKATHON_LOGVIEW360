@@ -3,16 +3,17 @@ Script principal para el análisis de logs.
 """
 import os
 from datetime import datetime
+
 import pandas as pd
 
-from data_ingestion.secucheck_parser import SecucheckParser
-from data_ingestion.midflow_parser import MidflowParser
 from data_ingestion.corebank_parser import CorebankParser
 from data_ingestion.merger import LogMerger
-from processing.normalizer import LogNormalizer
-from processing.latency_analysis import LatencyAnalyzer
+from data_ingestion.midflow_parser import MidflowParser
+from data_ingestion.secucheck_parser import SecucheckParser
 from processing.anomaly_detector import AnomalyDetector
 from processing.flow_mapper import FlowMapper
+from processing.latency_analysis import LatencyAnalyzer
+from processing.normalizer import LogNormalizer
 from utils.logger import setup_logger
 
 logger = setup_logger('main')
@@ -21,7 +22,7 @@ def main():
     """Main analysis function."""
     try:
         # Configurar rutas
-        source_dir = "../source"
+        source_dir = "./source"
         output_dir = "output"
         os.makedirs(output_dir, exist_ok=True)
         

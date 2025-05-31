@@ -1,34 +1,45 @@
-.transacts__container{
-  font-size: 14px;
-  &__tags{
-    &__container{
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 17px;
-      &__tag{
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        max-height: 32px;
-        cursor: pointer;
-        font-size: 12px;
-        &__quantity{
-          background-color: #e7e8ea;
-          border: 1px solid #e7e8ea;
-          border-radius: 4px;
-          padding-inline: 4px;
-        }
-      }
-      &__btn{
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #256679;
-        cursor: pointer;
-        min-height: 40px;
-      }
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.full-width {
+  grid-column: span 3;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin-top: 0;
+    font-size: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .stat-key {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .stat-value {
+      color: #333;
     }
   }
 }

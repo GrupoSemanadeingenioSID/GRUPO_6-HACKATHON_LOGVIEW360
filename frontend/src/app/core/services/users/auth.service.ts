@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LoginRequest, LoginResponse } from '../../models/users/auth.model';
 
@@ -12,10 +12,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials);
+login(credentials: LoginRequest): Observable<LoginResponse> {
+  const fakeResponse: LoginResponse = {
+    token: 'fake-jwt-token-12345',
+    username: 'glud'
   }
-
+  return of(fakeResponse);
+}
   refreshToken(refreshToken: string): Observable<any> {
     const body = { refresh_token: refreshToken };
     return this.http.post<any>(`${this.apiUrl}/refresh`, body);

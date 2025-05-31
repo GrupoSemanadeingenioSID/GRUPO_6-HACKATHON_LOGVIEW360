@@ -1,46 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../../core/services/data.service';
 
 @Component({
   selector: 'app-transacts',
+  standalone: false,
   templateUrl: './transacts.component.html',
-  styleUrls: ['./transacts.component.scss'],
-  standalone: false
+  styleUrls: ['./transacts.component.scss']
 })
 export class TransactsComponent implements OnInit {
-  data = {
-    timestamp: '2025-05-30T17:28:17.742250',
-    latency_stats: {
-      mean: 0.17652691867124856,
-      median: 0.173,
-      std: 0.07367858552470405,
-      min: 0.05,
-      max: 0.3,
-      p95: 0.289,
-      p99: 0.29728
-    },
-    flow_stats: {
-      complete_flow_pct: 87.3,
-      avg_stages: 3.619,
-      avg_duration: 8.73,
-      min_duration: 0,
-      max_duration: 10
-    },
-    anomaly_counts: {
-      pattern: 127,
-      sequence: 0,
-      bottlenecks: 43
-    }
-  };
-
+  data: any;
   latencyKeys: string[] = [];
   flowKeys: string[] = [];
   anomalyKeys: string[] = [];
 
-  constructor() {}
+  constructor(private transactsService: DataService) {}
 
   ngOnInit(): void {
-    this.latencyKeys = Object.keys(this.data.latency_stats);
-    this.flowKeys = Object.keys(this.data.flow_stats);
-    this.anomalyKeys = Object.keys(this.data.anomaly_counts);
+    this.transactsService.getMetrics().subscribe({
+      next: (response) => {
+        this.data = response;
+        this.latencyKeys = Object.keys(response.latency_stats);
+        this.flowKeys = Object.keys(response.flow_stats);
+        this.anomalyKeys = Object.keys(response.anomaly_counts);
+      },
+      error: (err) => {
+        console.error('Error al cargar métricas:', err);
+      }
+    });
   }
 }
