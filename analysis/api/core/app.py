@@ -8,7 +8,6 @@ from ..controllers.log_controller import LogController
 from ..services.log_service import LogService
 from ..repositories.log_repository import LogRepository
 from utils.config import API_HOST, API_PORT
-from api.controllers.user_controller import router as user_router
 
 def create_app() -> FastAPI:
     """Create and configure FastAPI application."""
@@ -25,7 +24,6 @@ def create_app() -> FastAPI:
     
     # Include routes
     app.include_router(controller.router)
-    app.include_router(user_router)
     
     return app
 

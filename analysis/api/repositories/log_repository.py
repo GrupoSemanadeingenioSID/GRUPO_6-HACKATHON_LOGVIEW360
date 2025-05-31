@@ -17,31 +17,48 @@ logger = setup_logger('repository')
 class LogRepository:
     def __init__(self):
         """Initialize repository with data processors."""
-        self.merger = LogMerger(
-            secucheck_path=f"{SOURCE_DIR}/logs_SecuCheck.json",
-            midflow_path=f"{SOURCE_DIR}/logs_MidFlow_ESB.csv",
-            corebank_path=f"{SOURCE_DIR}/logs_CoreBank.log"
-        )
-        self.normalizer = LogNormalizer()
-        self.latency_analyzer = LatencyAnalyzer()
-        self.flow_mapper = FlowMapper()
-        
-        # Cache
-        self._data: Optional[pd.DataFrame] = None
-        self._last_update: Optional[datetime] = None
+        try:
+            logger.info("Initializing LogRepository...")
+            self.merger = LogMerger(
+                secucheck_path=f"{SOURCE_DIR}/logs_SecuCheck.json",
+                midflow_path=f"{SOURCE_DIR}/logs_MidFlow_ESB.csv",
+                corebank_path=f"{SOURCE_DIR}/logs_CoreBank.log"
+            )
+            self.normalizer = LogNormalizer()
+            self.latency_analyzer = LatencyAnalyzer()
+            self.flow_mapper = FlowMapper()
+            
+            # Cache
+            self._data: Optional[pd.DataFrame] = None
+            self._last_update: Optional[datetime] = None
+            logger.info("LogRepository initialized successfully")
+        except Exception as e:
+            logger.error(f"Error initializing repository: {str(e)}")
+            raise
         
     def get_data(self, force_refresh: bool = False) -> pd.DataFrame:
         """Get the normalized log data."""
-        if force_refresh or self._data is None:
-            self.refresh_data()
-        return self._data
+        try:
+            logger.info("Getting data from repository...")
+            if force_refresh or self._data is None:
+                logger.info("Data not in cache or force refresh requested")
+                self.refresh_data()
+            logger.info(f"Returning data with shape: {self._data.shape}")
+            return self._data
+        except Exception as e:
+            logger.error(f"Error getting data: {str(e)}")
+            raise
     
     def refresh_data(self) -> None:
         """Refresh the log data."""
         try:
+            logger.info("Refreshing data...")
             df = self.merger.merge_logs()
+            logger.info(f"Merged data shape: {df.shape}")
             self._data = self.normalizer.normalize_dataframe(df)
+            logger.info(f"Normalized data shape: {self._data.shape}")
             self._last_update = datetime.now()
+            logger.info("Data refresh completed successfully")
         except Exception as e:
             logger.error(f"Error refreshing data: {str(e)}")
             raise

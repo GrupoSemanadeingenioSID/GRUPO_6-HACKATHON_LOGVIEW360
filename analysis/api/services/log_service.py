@@ -2,7 +2,7 @@
 Service layer for log analysis operations.
 """
 from typing import Dict, List, Optional, Tuple
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import pandas as pd
 import numpy as np
 
@@ -13,7 +13,8 @@ from ..models.schemas import (
     BottleneckDetail,
     BottleneckSummary,
     TimeRangeQuery,
-    LatencyTrend
+    LatencyTrend,
+    PaginationParams
 )
 from utils.logger import setup_logger
 
@@ -264,3 +265,106 @@ class LogService:
                 )
                 
         return trends 
+
+    def get_merged_data(self, pagination: PaginationParams) -> Dict:
+        """
+        Get all merged data from the three log sources with complete traceability.
+        
+        Args:
+            pagination: Pagination parameters
+            
+        Returns:
+            Dict: Dictionary containing paginated merged data with complete transaction flow
+        """
+        try:
+            logger.info("Getting data from repository...")
+            # Get the merged and normalized data
+            df = self.repository.get_data()
+            logger.info(f"Got dataframe with shape: {df.shape}")
+            
+            # Calculate pagination
+            total_records = len(df)
+            total_pages = (total_records + pagination.page_size - 1) // pagination.page_size
+            
+            # Validate page number
+            if pagination.page > total_pages and total_pages > 0:
+                pagination.page = total_pages
+            
+            # Calculate slice indices
+            start_idx = (pagination.page - 1) * pagination.page_size
+            end_idx = min(start_idx + pagination.page_size, total_records)
+            
+            # Slice dataframe
+            df_page = df.iloc[start_idx:end_idx]
+            
+            # Convert to format más simple y estandarizado
+            records = []
+            for _, row in df_page.iterrows():
+                try:
+                    record = {
+                        'transaction_id': str(row['transaction_id']),
+                        'timestamps': {
+                            'security': row['timestamp_secu'].replace(tzinfo=timezone.utc).isoformat() if pd.notna(row['timestamp_secu']) else None,
+                            'middleware_start': row['start_time'].replace(tzinfo=timezone.utc).isoformat() if pd.notna(row['start_time']) else None,
+                            'middleware_end': row['end_time'].replace(tzinfo=timezone.utc).isoformat() if pd.notna(row['end_time']) else None,
+                            'core_banking': row['timestamp_core'].replace(tzinfo=timezone.utc).isoformat() if pd.notna(row['timestamp_core']) else None
+                        },
+                        'operation': str(row['operation']) if pd.notna(row['operation']) else None,
+                        'status': str(row['status']) if pd.notna(row['status']) else None,
+                        'amount': float(row['amount']) if pd.notna(row['amount']) else None,
+                        'validation': {
+                            'result': str(row['validation_result']) if pd.notna(row['validation_result']) else None,
+                            'failure_reason': str(row['failure_reason']) if pd.notna(row['failure_reason']) else None,
+                            'verifications': str(row['verifications']).split(',') if pd.notna(row['verifications']) else []
+                        },
+                        'latencies': {
+                            'service': float(row['service_latency']) if pd.notna(row['service_latency']) else None,
+                            'total': float(row['total_latency']) if pd.notna(row['total_latency']) else None,
+                            'end_to_end': float(row['e2e_latency']) if pd.notna(row['e2e_latency']) else None
+                        },
+                        'user_info': {
+                            'user_id': str(row['user_id']) if pd.notna(row['user_id']) else None,
+                            'ip_address': str(row['ip_address']) if pd.notna(row['ip_address']) else None
+                        },
+                        'system_info': {
+                            'module': str(row['module']) if pd.notna(row['module']) else None,
+                            'account_type': str(row['account_type']) if pd.notna(row['account_type']) else None
+                        },
+                        'flow_status': {
+                            'has_security_check': bool(row['has_security_check']) if pd.notna(row['has_security_check']) else False,
+                            'has_middleware_flow': bool(row['has_middleware_flow']) if pd.notna(row['has_middleware_flow']) else False,
+                            'has_core_banking': bool(row['has_core_banking']) if pd.notna(row['has_core_banking']) else False,
+                            'completion_percentage': float(row['completion_pct']) if pd.notna(row['completion_pct']) else 0.0
+                        }
+                    }
+                    records.append(record)
+                except Exception as e:
+                    logger.error(f"Error processing row: {str(e)}")
+                    logger.error(f"Row data: {row.to_dict()}")
+                    continue
+            
+            logger.info(f"Successfully processed {len(records)} records for page {pagination.page}")
+            
+            # Create pagination metadata
+            metadata = {
+                'total_records': total_records,
+                'total_pages': total_pages,
+                'current_page': pagination.page,
+                'page_size': pagination.page_size,
+                'has_next': pagination.page < total_pages,
+                'has_previous': pagination.page > 1
+            }
+            
+            result = {
+                'metadata': metadata,
+                'data': records
+            }
+            
+            return result
+            
+        except Exception as e:
+            logger.error(f"Error getting merged data: {str(e)}")
+            logger.error(f"Error type: {type(e)}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            raise 

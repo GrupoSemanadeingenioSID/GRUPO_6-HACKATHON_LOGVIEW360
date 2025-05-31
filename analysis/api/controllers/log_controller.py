@@ -6,6 +6,7 @@ from typing import Dict, List, Optional
 from datetime import datetime, timedelta
 
 from ..services.log_service import LogService
+from ..services.structure_service import StructureService
 from ..models.schemas import (
     TransactionTrace, 
     AnalysisResponse, 
@@ -14,7 +15,10 @@ from ..models.schemas import (
     BottleneckDetail,
     BottleneckSummary,
     TimeRangeQuery,
-    LatencyTrend
+    LatencyTrend,
+    DataStructureResponse,
+    LogDataResponse,
+    PaginationParams
 )
 from utils.logger import setup_logger
 
@@ -24,6 +28,7 @@ class LogController:
     def __init__(self, service: LogService):
         """Initialize controller with service."""
         self.service = service
+        self.structure_service = StructureService(service.repository)
         self.router = APIRouter(prefix="/api/v1", tags=["logs"])
         self._setup_routes()
         
@@ -143,4 +148,37 @@ class LogController:
                 return self.service.get_latency_trends(start_time, end_time, window)
             except Exception as e:
                 logger.error(f"Error getting latency trends: {str(e)}")
+                raise HTTPException(status_code=500, detail=str(e))
+
+        @self.router.get("/structure", response_model=DataStructureResponse)
+        async def get_data_structure() -> DataStructureResponse:
+            """
+            Get the complete data structure information.
+            
+            Returns:
+                Detailed information about all data fields and their structure
+            """
+            try:
+                return self.structure_service.get_data_structure()
+            except Exception as e:
+                logger.error(f"Error getting data structure: {str(e)}")
+                raise HTTPException(status_code=500, detail=str(e))
+
+        @self.router.get("/data", response_model=LogDataResponse)
+        async def get_merged_data(
+            pagination: PaginationParams = Depends()
+        ) -> LogDataResponse:
+            """
+            Get all merged data from the three log sources.
+            
+            Args:
+                pagination: Pagination parameters
+                
+            Returns:
+                LogDataResponse: Dictionary containing paginated merged records and metadata
+            """
+            try:
+                return self.service.get_merged_data(pagination)
+            except Exception as e:
+                logger.error(f"Error getting merged data: {str(e)}")
                 raise HTTPException(status_code=500, detail=str(e)) 

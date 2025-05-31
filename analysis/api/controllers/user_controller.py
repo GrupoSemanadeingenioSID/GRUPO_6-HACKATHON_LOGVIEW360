@@ -1,6 +1,9 @@
+"""
+User-related API endpoints.
+"""
 from fastapi import APIRouter, HTTPException
-from api.services.user_service import UserService
-from api.models.user import UserTransactions
+from ..services.user_service import UserService
+from ..models.user import UserTransactions
 
 router = APIRouter(prefix="/users", tags=["users"])
 service = UserService()
