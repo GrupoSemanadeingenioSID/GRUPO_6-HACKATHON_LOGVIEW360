@@ -1,6 +1,9 @@
+"""
+Service for handling user-related operations.
+"""
 from typing import Optional
-from api.models.user import UserTransactions
-from api.repositories.user_repository import UserRepository
+from ..models.user import UserTransactions
+from ..repositories.user_repository import UserRepository
 
 class UserService:
     def __init__(self):

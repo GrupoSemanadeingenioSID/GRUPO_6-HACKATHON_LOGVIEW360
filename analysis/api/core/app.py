@@ -27,7 +27,6 @@ def create_app() -> FastAPI:
     
     # Include routes
     app.include_router(controller.router)
-    app.include_router(user_router)
     
     return app
 

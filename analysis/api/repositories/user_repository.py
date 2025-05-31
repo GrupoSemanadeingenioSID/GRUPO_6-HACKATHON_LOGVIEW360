@@ -1,8 +1,11 @@
+"""
+Repository for handling user data operations.
+"""
 from datetime import datetime
 from typing import Optional
 import pandas as pd
-from api.models.user import UserTransactions, Transaction
-from api.repositories.log_repository import LogRepository
+from ..models.user import UserTransactions, Transaction
+from .log_repository import LogRepository
 
 class UserRepository:
     def __init__(self):
